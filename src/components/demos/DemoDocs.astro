@@ -1,0 +1,183 @@
+---
+/** Invoice reading demo: scan animation + extracted fields + anomaly check. */
+const docs = {
+  ok: {
+    label: 'Fattura regolare',
+    supplier: 'Tipografia Rinaldi S.r.l.',
+    number: 'FT 2026/0457',
+    date: '14/11/2026',
+    due: '14/12/2026',
+    net: 1250,
+    vatRate: 22,
+    vat: 275,
+    total: 1525,
+    iban: 'IT60 X054 2811 1010 0000 0123 456',
+  },
+  ko: {
+    label: 'Fattura con anomalia',
+    supplier: 'Elettroforniture Gallo S.p.A.',
+    number: 'FT 2026/1932',
+    date: '18/11/2026',
+    due: '18/11/2026',
+    net: 860,
+    vatRate: 22,
+    vat: 172,
+    total: 1032,
+    iban: 'IT02 L123 4512 3451 2345 6789 012',
+  },
+};
+const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', currency: 'EUR', useGrouping: 'always' } as Intl.NumberFormatOptions);
+---
+
+<div data-demo-docs data-docs={JSON.stringify(docs)} class="grid gap-6 lg:grid-cols-2">
+  <div class="min-w-0">
+    <div class="mb-4 flex flex-wrap gap-2">
+      {
+        Object.entries(docs).map(([k, d], i) => (
+          <button type="button" data-doc={k} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-white/10 px-4 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">
+            {d.label}
+          </button>
+        ))
+      }
+    </div>
+    <!-- Paper invoice -->
+    <div class="relative overflow-hidden rounded-2xl bg-[#f7f5ef] p-6 font-mono text-[12px] leading-relaxed text-slate-800 shadow-2xl">
+      <div data-scan class="pointer-events-none absolute inset-x-0 top-0 hidden h-16 bg-gradient-to-b from-transparent via-brand-400/40 to-transparent"></div>
+      <div class="flex justify-between gap-4">
+        <div>
+          <p data-f="supplier" class="text-sm font-bold">{docs.ok.supplier}</p>
+          <p class="text-slate-500">Via dell’Artigianato 12, Bologna</p>
+        </div>
+        <p class="text-right font-bold">FATTURA</p>
+      </div>
+      <div class="mt-5 grid grid-cols-2 gap-2">
+        <p>N. <span data-f="number" class="rounded px-0.5">{docs.ok.number}</span></p>
+        <p>Data <span data-f="date" class="rounded px-0.5">{docs.ok.date}</span></p>
+      </div>
+      <p class="mt-3">Spett.le Automa Cliente S.r.l.</p>
+      <div class="mt-4 border-y border-slate-300 py-2">
+        <p class="flex justify-between"><span>Servizi e materiali come da ordine</span><span data-f="net" class="rounded px-0.5">{eur(docs.ok.net)}</span></p>
+      </div>
+      <div class="mt-2 space-y-0.5 text-right">
+        <p>Imponibile <span data-f="net2">{eur(docs.ok.net)}</span></p>
+        <p>IVA <span data-f="vatRate">{docs.ok.vatRate}</span>% <span data-f="vat" class="rounded px-0.5">{eur(docs.ok.vat)}</span></p>
+        <p class="text-sm font-bold">Totale <span data-f="total" class="rounded px-0.5">{eur(docs.ok.total)}</span></p>
+      </div>
+      <p class="mt-4">Scadenza pagamento: <span data-f="due" class="rounded px-0.5">{docs.ok.due}</span></p>
+      <p class="break-all">IBAN: <span data-f="iban" class="rounded px-0.5">{docs.ok.iban}</span></p>
+    </div>
+    <button type="button" data-analyze class="btn btn-primary mt-5 w-full sm:w-auto">
+      <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 12h10"></path></svg>
+      Analizza il documento
+    </button>
+  </div>
+
+  <div class="glass min-w-0 rounded-3xl p-6">
+    <p class="text-xs font-semibold tracking-wider text-brand-300 uppercase">Dati estratti</p>
+    <p class="mt-1 text-sm text-slate-400">Pronti per il gestionale o per il commercialista.</p>
+    <dl data-out class="mt-5 divide-y divide-white/5 text-sm">
+      {
+        [
+          ['supplier', 'Fornitore'],
+          ['number', 'Numero'],
+          ['date', 'Data'],
+          ['net', 'Imponibile'],
+          ['vat', 'IVA'],
+          ['total', 'Totale'],
+          ['due', 'Scadenza'],
+          ['iban', 'IBAN'],
+        ].map(([k, l]) => (
+          <div class="flex items-center justify-between gap-4 py-2.5">
+            <dt class="text-slate-400">{l}</dt>
+            <dd data-o={k} class="text-right font-mono break-all text-slate-600">—</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <div data-check class="mt-5 hidden rounded-2xl px-4 py-3 text-sm"></div>
+  </div>
+</div>
+
+<script>
+  type Doc = {
+    supplier: string; number: string; date: string; due: string;
+    net: number; vatRate: number; vat: number; total: number; iban: string;
+  };
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', currency: 'EUR', useGrouping: 'always' } as Intl.NumberFormatOptions);
+
+  document.querySelectorAll<HTMLElement>('[data-demo-docs]').forEach((root) => {
+    const docs = JSON.parse(root.dataset.docs!) as Record<string, Doc>;
+    let current = 'ok';
+    let busy = false;
+    const btns = root.querySelectorAll<HTMLButtonElement>('[data-doc]');
+    const scan = root.querySelector<HTMLElement>('[data-scan]')!;
+    const check = root.querySelector<HTMLElement>('[data-check]')!;
+    const f = (k: string) => root.querySelector<HTMLElement>(`[data-f="${k}"]`)!;
+    const o = (k: string) => root.querySelector<HTMLElement>(`[data-o="${k}"]`)!;
+    const fmt = (d: Doc, k: keyof Doc) => (typeof d[k] === 'number' && k !== 'vatRate' ? eur(d[k] as number) : String(d[k]));
+
+    const render = () => {
+      const d = docs[current];
+      (['supplier', 'number', 'date', 'due', 'iban', 'vatRate'] as const).forEach((k) => (f(k).textContent = String(d[k])));
+      (['net', 'vat', 'total'] as const).forEach((k) => (f(k).textContent = eur(d[k])));
+      f('net2').textContent = eur(d.net);
+      root.querySelectorAll<HTMLElement>('[data-o]').forEach((el) => {
+        el.textContent = '—';
+        el.className = 'text-right font-mono break-all text-slate-600';
+      });
+      root.querySelectorAll<HTMLElement>('[data-f]').forEach((el) => el.classList.remove('bg-brand-300/50', 'bg-red-300/60'));
+      check.classList.add('hidden');
+    };
+
+    btns.forEach((b) =>
+      b.addEventListener('click', () => {
+        if (busy) return;
+        current = b.dataset.doc!;
+        btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        render();
+      }),
+    );
+
+    root.querySelector('[data-analyze]')!.addEventListener('click', async () => {
+      if (busy) return;
+      busy = true;
+      render();
+      const d = docs[current];
+      scan.classList.remove('hidden');
+      scan.animate([{ transform: 'translateY(-4rem)' }, { transform: 'translateY(26rem)' }], { duration: 1400, easing: 'ease-in-out' });
+      await sleep(1100);
+      scan.classList.add('hidden');
+      for (const k of ['supplier', 'number', 'date', 'net', 'vat', 'total', 'due', 'iban'] as (keyof Doc)[]) {
+        f(k).classList.add('bg-brand-300/50');
+        const out = o(k);
+        out.textContent = fmt(d, k);
+        out.className = 'text-right font-mono break-all text-white';
+        await sleep(180);
+      }
+      // Checks: VAT coherent with net, total coherent, due date after invoice date.
+      const issues: string[] = [];
+      const expectedVat = Math.round(d.net * d.vatRate) / 100;
+      if (Math.abs(expectedVat - d.vat) > 0.5) {
+        issues.push(`IVA non coerente: il ${d.vatRate}% di ${eur(d.net)} è ${eur(expectedVat)}, in fattura ${eur(d.vat)}.`);
+        f('vat').classList.replace('bg-brand-300/50', 'bg-red-300/60');
+        o('vat').className = 'text-right font-mono break-all text-red-300';
+      }
+      if (d.due === d.date) {
+        issues.push('Scadenza uguale alla data fattura: diversa dai 30 giorni concordati con il fornitore.');
+        f('due').classList.replace('bg-brand-300/50', 'bg-red-300/60');
+        o('due').className = 'text-right font-mono break-all text-red-300';
+      }
+      await sleep(250);
+      check.classList.remove('hidden');
+      if (issues.length) {
+        check.className = 'mt-5 rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-100';
+        check.innerHTML = `<p class="font-semibold">⚠️ ${issues.length} anomalie da verificare</p><ul class="mt-2 list-disc space-y-1 pl-5">${issues.map((i) => `<li>${i}</li>`).join('')}</ul><p class="mt-2 text-xs text-red-200/80">Il documento resta in attesa: solo questo arriva sulla vostra scrivania.</p>`;
+      } else {
+        check.className = 'mt-5 rounded-2xl border border-brand-400/30 bg-brand-400/10 px-4 py-3 text-sm text-brand-100';
+        check.innerHTML = '<p class="font-semibold">✓ Tutti i controlli superati</p><p class="mt-1 text-xs text-brand-200/80">Importi coerenti, fornitore riconosciuto, scadenza registrata nello scadenzario. Pronta per la registrazione.</p>';
+      }
+      busy = false;
+    });
+  });
+</script>

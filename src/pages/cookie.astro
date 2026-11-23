@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../config/site';
+import { localizedPath } from '../i18n/ui';
+const updated = '23 novembre 2026';
+---
+
+<Base title="Cookie policy" description="Informativa sull'uso dei cookie e delle tecnologie simili su questo sito.">
+  <PageHeader eyebrow="Note legali" title="Cookie policy" intro={`Ultimo aggiornamento: ${updated}.`} />
+
+  <article class="container-page prose-legal mt-12 max-w-3xl">
+    <p class="rounded-xl border border-accent-400/30 bg-accent-400/10 p-4 text-sm text-accent-300">
+      Testo segnaposto a scopo dimostrativo. Va aggiornato se in futuro si aggiungono strumenti di analisi, mappe, video
+      incorporati o pixel pubblicitari: in quel caso serve anche un banner per il consenso.
+    </p>
+
+    <h2>Cosa sono i cookie</h2>
+    <p>
+      I cookie sono piccoli file di testo che i siti salvano sul dispositivo di chi li visita. Le Linee guida del Garante
+      Privacy del 10 giugno 2021 distinguono tra cookie tecnici, che non richiedono consenso, e cookie di profilazione o
+      analitici di terze parti, che lo richiedono.
+    </p>
+
+    <h2>Cookie utilizzati da questo sito</h2>
+    <p>
+      Allo stato attuale questo sito <strong>non utilizza cookie di profilazione né cookie di terze parti</strong>. I
+      caratteri tipografici sono ospitati sul nostro server, senza collegamenti a servizi esterni. Per questo motivo non
+      viene mostrato alcun banner per il consenso.
+    </p>
+    <p>
+      Potrebbero essere usati esclusivamente cookie tecnici strettamente necessari al funzionamento del sito, che non
+      richiedono consenso (art. 122 del Codice Privacy).
+    </p>
+
+    <h2>Come gestire i cookie</h2>
+    <p>
+      Potete bloccare o eliminare i cookie dalle impostazioni del vostro browser. La disattivazione dei cookie tecnici
+      potrebbe compromettere alcune funzionalità del sito.
+    </p>
+
+    <h2>Contatti</h2>
+    <p>
+      Per qualsiasi domanda scriveteci a <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>. Per maggiori
+      informazioni sul trattamento dei dati consultate l’<a href={localizedPath('it', 'privacy')}>informativa privacy</a>.
+    </p>
+  </article>
+</Base>

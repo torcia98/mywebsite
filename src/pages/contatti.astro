@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../config/site';
+import { services } from '../data/services';
+import { localizedPath } from '../i18n/ui';
+
+const demoMode = !site.formEndpoint;
+const label = 'block text-sm font-medium text-slate-200';
+---
+
+<Base title="Contatti" description="Prenotate una consulenza gratuita di 30 minuti: vi rispondiamo entro un giorno lavorativo.">
+  <PageHeader
+    eyebrow="Contatti"
+    title='Prenotate la <span class="text-gradient">consulenza gratuita</span>'
+    intro="Raccontateci in due righe di cosa vi occupate e cosa vorreste migliorare. Vi ricontattiamo entro un giorno lavorativo per fissare una chiamata di 30 minuti."
+  />
+
+  <section id="prenota" class="container-page grid scroll-mt-24 gap-8 lg:grid-cols-3">
+    <form
+      class="glass space-y-5 rounded-3xl p-6 sm:p-8 lg:col-span-2"
+      method="POST"
+      action={site.formEndpoint || undefined}
+      data-contact-form
+      data-demo={demoMode ? 'true' : undefined}
+    >
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="nome" class={label}>Nome e cognome *</label>
+          <input id="nome" name="nome" type="text" autocomplete="name" required class="input" />
+        </div>
+        <div>
+          <label for="azienda" class={label}>Azienda *</label>
+          <input id="azienda" name="azienda" type="text" autocomplete="organization" required class="input" />
+        </div>
+        <div>
+          <label for="email" class={label}>Email *</label>
+          <input id="email" name="email" type="email" autocomplete="email" required class="input" />
+        </div>
+        <div>
+          <label for="telefono" class={label}>Telefono</label>
+          <input id="telefono" name="telefono" type="tel" autocomplete="tel" class="input" />
+        </div>
+        <div>
+          <label for="dimensione" class={label}>Dimensione azienda</label>
+          <select id="dimensione" name="dimensione" class="input">
+            <option value="">Selezionate…</option>
+            <option>1–9 dipendenti</option>
+            <option>10–49 dipendenti</option>
+            <option>50–249 dipendenti</option>
+            <option>250+ dipendenti</option>
+          </select>
+        </div>
+        <div>
+          <label for="interesse" class={label}>Servizio di interesse</label>
+          <select id="interesse" name="interesse" class="input">
+            <option value="">Selezionate…</option>
+            {services.map((s) => <option value={s.id}>{s.title}</option>)}
+            <option value="non-so">Non lo so ancora</option>
+          </select>
+        </div>
+      </div>
+
+      <fieldset>
+        <legend class={label}>Quando preferite essere ricontattati?</legend>
+        <div class="mt-2 flex flex-wrap gap-2 text-sm">
+          {
+            ['Mattina', 'Pomeriggio', 'Indifferente'].map((f, i) => (
+              <label class="cursor-pointer rounded-full border border-white/10 px-4 py-1.5 text-slate-300 has-checked:border-brand-300/60 has-checked:bg-brand-400/10 has-checked:text-white">
+                <input type="radio" name="fascia" value={f.toLowerCase()} class="sr-only" checked={i === 2} />
+                {f}
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <div>
+        <label for="messaggio" class={label}>Di cosa vorreste parlare? *</label>
+        <textarea
+          id="messaggio"
+          name="messaggio"
+          rows="5"
+          required
+          class="input"
+          placeholder="Es. riceviamo 200 email al giorno con richieste di preventivo e vorremmo velocizzare le risposte."
+        ></textarea>
+      </div>
+
+      <div class="hidden" aria-hidden="true">
+        <label>Lasciare vuoto <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+      </div>
+
+      <label class="flex items-start gap-3 text-sm text-slate-400">
+        <input type="checkbox" name="privacy" required class="mt-1 accent-brand-400" />
+        <span>
+          Ho letto l’<a href={localizedPath('it', 'privacy')} class="text-brand-300 underline">informativa privacy</a> e
+          acconsento al trattamento dei miei dati per essere ricontattato. *
+        </span>
+      </label>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <button type="submit" class="btn btn-primary px-7 py-3 text-base">Invia richiesta</button>
+        <p class="text-xs text-slate-500">* campi obbligatori</p>
+      </div>
+      <p data-form-status class="hidden rounded-xl bg-brand-400/10 p-4 text-sm text-brand-100" role="status"></p>
+    </form>
+
+    <aside class="space-y-5">
+      {
+        site.bookingUrl && (
+          <div class="rounded-3xl border border-brand-300/30 bg-gradient-to-br from-brand-500/20 to-violet-600/20 p-6">
+            <h2 class="text-xl">Preferite scegliere voi l’orario?</h2>
+            <p class="mt-2 text-sm text-slate-300">Prenotate direttamente uno slot libero nel nostro calendario.</p>
+            <a href={site.bookingUrl} class="btn btn-primary mt-4" rel="noopener" target="_blank">Aprite il calendario</a>
+          </div>
+        )
+      }
+      <div class="glass rounded-3xl p-6">
+        <h2 class="text-xl">Contatti diretti</h2>
+        <ul class="mt-4 space-y-4 text-slate-200">
+          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">Email</span><a class="hover:text-brand-300" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">Telefono</span><a class="hover:text-brand-300" href={`tel:${site.contact.phone.replace(/\s/g, '')}`}>{site.contact.phone}</a></li>
+          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">WhatsApp</span><a class="hover:text-brand-300" href={site.contact.whatsapp} rel="noopener">Scriveteci su WhatsApp</a></li>
+          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">Sede</span>{site.legal.address}</li>
+        </ul>
+      </div>
+      <div class="glass rounded-3xl p-6 text-sm text-slate-400">
+        <h2 class="text-base">Cosa succede dopo?</h2>
+        <ol class="mt-4 space-y-3">
+          {['Leggiamo la vostra richiesta.', 'Vi scriviamo per fissare una call di 30 minuti.', 'Vi inviamo una prima valutazione, gratis.'].map((s, i) => (
+            <li class="flex gap-3"><span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-400/15 text-xs text-brand-200">{i + 1}</span>{s}</li>
+          ))}
+        </ol>
+      </div>
+    </aside>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+  // Preselect the service when coming from the calculator (?servizio=...)
+  const svc = new URLSearchParams(location.search).get('servizio');
+  const sel = form?.querySelector<HTMLSelectElement>('#interesse');
+  if (svc && sel && [...sel.options].some((o) => o.value === svc)) sel.value = svc;
+
+  // Demo mode: nothing is sent until formEndpoint is configured.
+  if (form?.dataset.demo) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const status = form.querySelector<HTMLElement>('[data-form-status]');
+      if (status) {
+        status.textContent = 'Modalità demo: nessun dato è stato inviato. Configurate "formEndpoint" in src/config/site.ts per ricevere le richieste.';
+        status.classList.remove('hidden');
+      }
+    });
+  }
+</script>

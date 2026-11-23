@@ -1,0 +1,87 @@
+---
+import Logo from './Logo.astro';
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizedPath,
+  languages,
+  routes,
+  showLanguageSwitcher,
+  type Lang,
+} from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const links = [
+  { href: localizedPath(lang, 'services'), label: t('nav.services') },
+  { href: localizedPath(lang, 'demo'), label: t('nav.demo') },
+  { href: localizedPath(lang, 'calculator'), label: t('nav.calculator') },
+  { href: localizedPath(lang, 'method'), label: t('nav.method') },
+  { href: localizedPath(lang, 'about'), label: t('nav.about') },
+];
+---
+
+<header class="fixed inset-x-0 top-0 z-40 px-3 pt-3">
+  <div
+    class="glass mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 rounded-full pr-2 pl-5 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)]"
+  >
+    <a href={localizedPath(lang, 'home')} aria-label="Home"><Logo /></a>
+
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="Principale">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            class:list={[
+              'text-sm font-medium transition-colors hover:text-white',
+              current === l.href ? 'text-white' : 'text-slate-400',
+            ]}
+            aria-current={current === l.href ? 'page' : undefined}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      {
+        showLanguageSwitcher && (
+          <div class="flex gap-2 text-sm">
+            {(Object.keys(languages) as Lang[]).map((l) => (
+              <a href={routes[l].home} class:list={[l === lang ? 'font-semibold text-white' : 'text-slate-500']}>
+                {l.toUpperCase()}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href={localizedPath(lang, 'contact')} class="btn btn-primary hidden sm:inline-flex">{t('nav.cta')}</a>
+      <details class="group relative lg:hidden">
+        <summary
+          class="flex cursor-pointer list-none items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white [&::-webkit-details-marker]:hidden"
+        >
+          {t('nav.menu')}
+          <svg class="size-4 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M5.3 7.3a1 1 0 0 1 1.4 0L10 10.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4z"></path>
+          </svg>
+        </summary>
+        <nav
+          class="absolute right-0 mt-3 flex w-64 flex-col gap-1 rounded-3xl border border-white/10 bg-ink-900/95 p-3 shadow-2xl backdrop-blur-xl"
+          aria-label="Mobile"
+        >
+          {
+            links.map((l) => (
+              <a href={l.href} class="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-200 hover:bg-white/5">
+                {l.label}
+              </a>
+            ))
+          }
+          <a href={localizedPath(lang, 'contact')} class="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-200 hover:bg-white/5">{t('nav.contact')}</a>
+          <a href={localizedPath(lang, 'contact')} class="btn btn-primary mt-2">{t('nav.cta')}</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

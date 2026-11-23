@@ -1,0 +1,178 @@
+---
+/** Before/after demo of an order-entry automation (distributore di ricambi). */
+const manual = [
+  { t: 'Aprire l’email e scaricare l’allegato', m: 2 },
+  { t: 'Cercare il cliente nel gestionale', m: 1.5 },
+  { t: 'Ricopiare codici e quantità, riga per riga', m: 5 },
+  { t: 'Controllare prezzi e disponibilità', m: 2 },
+  { t: 'Avvisare il magazzino al telefono', m: 1 },
+  { t: 'Rispondere al cliente con la conferma', m: 1.5 },
+];
+const auto = [
+  { t: 'Email ricevuta', d: 'ordine_officina_bianchi.pdf' },
+  { t: 'L’IA legge l’ordine', d: 'Cliente, 3 righe, consegna richiesta' },
+  { t: 'Inserito nel gestionale', d: 'Ordine n. 2026/1184 creato' },
+  { t: 'Magazzino avvisato', d: 'Lista di prelievo inviata' },
+  { t: 'Conferma al cliente', d: 'Email con data di consegna' },
+];
+const lines = [
+  ['FLT-2231', 'Filtro olio', '12'],
+  ['PST-0098', 'Pastiglie freno ant.', '4'],
+  ['CNG-7710', 'Cinghia distribuzione', '2'],
+];
+const manualTotal = manual.reduce((a, b) => a + b.m, 0);
+---
+
+<div data-demo-flow class="space-y-6">
+  <div class="flex flex-wrap items-center justify-between gap-4">
+    <div class="inline-flex rounded-full border border-white/10 bg-white/5 p-1 text-sm" role="tablist" aria-label="Prima e dopo">
+      <button type="button" role="tab" data-mode="prima" aria-selected="false" class="rounded-full px-4 py-1.5 font-medium text-slate-400 aria-selected:bg-white/10 aria-selected:text-white">Prima</button>
+      <button type="button" role="tab" data-mode="dopo" aria-selected="true" class="rounded-full px-4 py-1.5 font-medium text-slate-400 aria-selected:bg-brand-400 aria-selected:text-ink-950">Dopo</button>
+    </div>
+    <button type="button" data-run class="btn btn-primary">
+      <svg class="size-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+      Avvia l’automazione
+    </button>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-5">
+    <!-- Incoming email -->
+    <div class="glass min-w-0 rounded-3xl p-5 lg:col-span-2">
+      <div class="flex items-center gap-2 text-xs text-slate-400">
+        <span class="size-2 rounded-full bg-accent-400"></span> Nuova email · 08:42
+      </div>
+      <p class="mt-3 text-sm font-semibold text-white">Da: Officina Bianchi s.n.c.</p>
+      <p class="text-sm text-slate-400">Oggetto: ordine ricambi settimana 48</p>
+      <p class="mt-4 text-sm leading-relaxed text-slate-300">
+        Buongiorno, come d’accordo vi mandiamo l’ordine in allegato. Se possibile consegna entro giovedì. Grazie, Luca
+      </p>
+      <div class="mt-4 overflow-hidden rounded-xl border border-white/10 text-xs">
+        <table class="w-full">
+          <thead class="bg-white/5 text-left text-slate-400">
+            <tr><th class="px-3 py-2 font-medium">Codice</th><th class="px-3 py-2 font-medium">Articolo</th><th class="px-3 py-2 text-right font-medium">Q.tà</th></tr>
+          </thead>
+          <tbody>
+            {
+              lines.map(([c, a, q]) => (
+                <tr data-line class="border-t border-white/5 text-slate-200 transition-colors duration-500">
+                  <td class="px-3 py-2 font-mono">{c}</td><td class="px-3 py-2">{a}</td><td class="px-3 py-2 text-right">{q}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Before -->
+    <div data-panel="prima" hidden class="glass min-w-0 rounded-3xl p-6 lg:col-span-3">
+      <p class="text-xs font-semibold tracking-wider text-accent-400 uppercase">Oggi, a mano</p>
+      <ol class="mt-4 space-y-2.5">
+        {
+          manual.map((s, i) => (
+            <li class="flex items-center justify-between gap-3 rounded-xl bg-white/[0.03] px-4 py-2.5 text-sm">
+              <span class="flex items-center gap-3 text-slate-300"><span class="font-mono text-xs text-slate-500">{String(i + 1).padStart(2, '0')}</span>{s.t}</span>
+              <span class="shrink-0 font-mono text-xs text-accent-300">{s.m.toLocaleString('it-IT')} min</span>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="mt-5 flex items-baseline justify-between border-t border-white/10 pt-4 text-sm text-slate-400">
+        Per ogni ordine <span class="font-display text-3xl text-accent-300">~{manualTotal} min</span>
+      </p>
+      <p class="mt-1 text-xs text-slate-500">Con 300 ordini al mese sono circa {Math.round((manualTotal * 300) / 60)} ore di lavoro, più il rischio di errori di battitura.</p>
+    </div>
+
+    <!-- After -->
+    <div data-panel="dopo" class="glass min-w-0 rounded-3xl p-6 lg:col-span-3">
+      <div class="flex items-center justify-between">
+        <p class="text-xs font-semibold tracking-wider text-brand-300 uppercase">Con l’automazione</p>
+        <p class="font-mono text-sm text-white"><span data-timer>0,0</span> s</p>
+      </div>
+      <ol class="relative mt-5 space-y-3">
+        {
+          auto.map((s, i) => (
+            <li data-step class="flex items-center gap-4 rounded-xl border border-white/5 bg-white/[0.02] px-4 py-3 opacity-40 transition-all duration-500">
+              <span data-dot class="flex size-8 shrink-0 items-center justify-center rounded-full border border-white/15 font-mono text-xs text-slate-400 transition-all duration-500">
+                {i + 1}
+              </span>
+              <span>
+                <span class="block text-sm font-medium text-white">{s.t}</span>
+                <span class="block text-xs text-slate-400">{s.d}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ol>
+      <p data-result class="mt-5 hidden rounded-xl bg-brand-400/10 px-4 py-3 text-sm text-brand-100">
+        Fatto. Nessuno ha ricopiato nulla: il personale vede l’ordine già pronto e controlla solo le eccezioni.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  document.querySelectorAll<HTMLElement>('[data-demo-flow]').forEach((root) => {
+    const tabs = root.querySelectorAll<HTMLButtonElement>('[data-mode]');
+    const panels = root.querySelectorAll<HTMLElement>('[data-panel]');
+    const runBtn = root.querySelector<HTMLButtonElement>('[data-run]')!;
+    const steps = root.querySelectorAll<HTMLElement>('[data-step]');
+    const lines = root.querySelectorAll<HTMLElement>('[data-line]');
+    const timer = root.querySelector<HTMLElement>('[data-timer]')!;
+    const result = root.querySelector<HTMLElement>('[data-result]')!;
+    let running = false;
+
+    const show = (mode: string) => {
+      tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.mode === mode)));
+      panels.forEach((p) => (p.hidden = p.dataset.panel !== mode));
+    };
+    tabs.forEach((t) => t.addEventListener('click', () => show(t.dataset.mode!)));
+
+    const reset = () => {
+      steps.forEach((s) => {
+        s.style.opacity = '';
+        s.classList.remove('border-brand-400/40', 'bg-brand-400/10');
+        const dot = s.querySelector<HTMLElement>('[data-dot]')!;
+        dot.classList.remove('bg-brand-400', 'text-ink-950', 'border-brand-400');
+        dot.textContent = String([...steps].indexOf(s) + 1);
+      });
+      lines.forEach((l) => l.classList.remove('bg-brand-400/15'));
+      result.classList.add('hidden');
+      timer.textContent = '0,0';
+    };
+
+    runBtn.addEventListener('click', async () => {
+      if (running) return;
+      running = true;
+      show('dopo');
+      reset();
+      const t0 = performance.now();
+      const raf = () => {
+        if (!running) return;
+        timer.textContent = ((performance.now() - t0) / 1000).toLocaleString('it-IT', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        requestAnimationFrame(raf);
+      };
+      requestAnimationFrame(raf);
+      for (let i = 0; i < steps.length; i++) {
+        const s = steps[i];
+        s.style.opacity = '1';
+        s.classList.add('border-brand-400/40', 'bg-brand-400/10');
+        if (i === 1) {
+          for (const l of lines) {
+            l.classList.add('bg-brand-400/15');
+            await sleep(260);
+          }
+        } else {
+          await sleep(700);
+        }
+        const dot = s.querySelector<HTMLElement>('[data-dot]')!;
+        dot.classList.add('bg-brand-400', 'text-ink-950', 'border-brand-400');
+        dot.textContent = '✓';
+      }
+      running = false;
+      result.classList.remove('hidden');
+    });
+  });
+</script>

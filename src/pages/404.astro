@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { localizedPath } from '../i18n/ui';
+---
+
+<Base title="Pagina non trovata">
+  <section class="container-page pt-44 pb-24 text-center">
+    <p class="eyebrow">Errore 404</p>
+    <h1 class="mt-5 text-6xl"><span class="text-gradient">404</span><br/>Pagina non trovata</h1>
+    <p class="mt-4 text-slate-400">La pagina che cercate non esiste o è stata spostata.</p>
+    <a href={localizedPath('it', 'home')} class="btn btn-primary mt-8">Tornate alla home</a>
+  </section>
+</Base>
