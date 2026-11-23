@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../config/site';
+import { localizedPath } from '../i18n/ui';
+const updated = '23 novembre 2026';
+---
+
+<Base title="Privacy policy" description="Informativa sul trattamento dei dati personali ai sensi del Regolamento UE 2016/679 (GDPR).">
+  <PageHeader eyebrow="Note legali" title="Informativa privacy" intro={`Ai sensi degli artt. 13 e 14 del Regolamento (UE) 2016/679 (GDPR). Ultimo aggiornamento: ${updated}.`} />
+
+  <article class="container-page prose-legal mt-12 max-w-3xl">
+    <p class="rounded-xl bg-amber-50 p-4 text-sm text-amber-900">
+      Testo segnaposto a scopo dimostrativo. Va verificato e completato da un consulente legale o dal DPO prima della
+      pubblicazione.
+    </p>
+
+    <h2>1. Titolare del trattamento</h2>
+    <p>
+      {site.legal.companyName}, {site.legal.address}, {site.legal.vat}. Email:
+      <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> · PEC: {site.legal.pec}.
+    </p>
+
+    <h2>2. Dati trattati</h2>
+    <ul>
+      <li><strong>Dati forniti volontariamente</strong> tramite il modulo di contatto o via email: nome, azienda, email, telefono e contenuto del messaggio.</li>
+      <li><strong>Dati di navigazione</strong>: dati tecnici raccolti dai sistemi del server (indirizzo IP, tipo di browser, orari di accesso), necessari al funzionamento e alla sicurezza del sito.</li>
+    </ul>
+
+    <h2>3. Finalità e base giuridica</h2>
+    <ul>
+      <li>Rispondere alle richieste di contatto e fornire informazioni o preventivi: esecuzione di misure precontrattuali (art. 6.1.b GDPR).</li>
+      <li>Garantire sicurezza e funzionamento del sito: legittimo interesse del titolare (art. 6.1.f GDPR).</li>
+      <li>Adempiere a obblighi di legge: art. 6.1.c GDPR.</li>
+    </ul>
+
+    <h2>4. Conservazione</h2>
+    <p>
+      I dati delle richieste di contatto sono conservati per il tempo necessario a gestirle e comunque non oltre 24 mesi
+      dall’ultimo contatto, salvo l’avvio di un rapporto contrattuale. I dati di navigazione sono conservati per un
+      massimo di 12 mesi.
+    </p>
+
+    <h2>5. Destinatari e trasferimenti</h2>
+    <p>
+      I dati possono essere trattati da fornitori che agiscono come responsabili del trattamento (es. hosting, servizio di
+      gestione del modulo di contatto, email). Privilegiamo fornitori con server nell’Unione Europea. Eventuali
+      trasferimenti extra UE avvengono solo con le garanzie previste dagli artt. 44 e seguenti del GDPR.
+    </p>
+
+    <h2>6. Diritti dell’interessato</h2>
+    <p>
+      Puoi chiedere in qualsiasi momento accesso, rettifica, cancellazione, limitazione, portabilità dei dati e opporti al
+      trattamento (artt. 15–22 GDPR), scrivendo a <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>. Hai
+      inoltre diritto di proporre reclamo al Garante per la protezione dei dati personali
+      (<a href="https://www.garanteprivacy.it" rel="noopener">www.garanteprivacy.it</a>).
+    </p>
+
+    <h2>7. Cookie</h2>
+    <p>Per informazioni sui cookie consulta la <a href={localizedPath('it', 'cookie')}>cookie policy</a>.</p>
+  </article>
+</Base>

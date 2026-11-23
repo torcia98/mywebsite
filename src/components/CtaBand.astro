@@ -1,0 +1,23 @@
+---
+import { localizedPath, getLangFromUrl } from '../i18n/ui';
+interface Props {
+  title?: string;
+  text?: string;
+}
+const lang = getLangFromUrl(Astro.url);
+const {
+  title = 'Parliamone in 30 minuti, senza impegno',
+  text = 'Ci racconti come lavorate oggi: individuiamo insieme le prime due o tre attività da automatizzare e quanto tempo potete risparmiare.',
+} = Astro.props;
+---
+
+<section class="container-page mt-24">
+  <div class="rounded-3xl bg-brand-900 px-6 py-12 text-center sm:px-12">
+    <h2 class="text-3xl text-white">{title}</h2>
+    <p class="mx-auto mt-4 max-w-2xl text-brand-100">{text}</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href={localizedPath(lang, 'contact') + '#prenota'} class="btn bg-accent-400 text-slate-900 hover:bg-accent-500">Prenota una call gratuita</a>
+      <a href={localizedPath(lang, 'services')} class="btn border border-brand-300/40 text-white hover:bg-brand-800">Scopri i servizi</a>
+    </div>
+  </div>
+</section>

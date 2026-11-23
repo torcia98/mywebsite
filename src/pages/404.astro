@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { localizedPath } from '../i18n/ui';
+---
+
+<Base title="Pagina non trovata">
+  <section class="container-page py-32 text-center">
+    <p class="eyebrow">Errore 404</p>
+    <h1 class="mt-2 text-4xl">Pagina non trovata</h1>
+    <p class="mt-4 text-slate-600">La pagina che cerchi non esiste o è stata spostata.</p>
+    <a href={localizedPath('it', 'home')} class="btn btn-primary mt-8">Torna alla home</a>
+  </section>
+</Base>
