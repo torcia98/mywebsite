@@ -17,6 +17,8 @@ export const showLanguageSwitcher = false;
 export type RouteKey =
   | 'home'
   | 'services'
+  | 'demo'
+  | 'calculator'
   | 'method'
   | 'about'
   | 'contact'
@@ -27,6 +29,8 @@ export const routes: Record<Lang, Record<RouteKey, string>> = {
   it: {
     home: '/',
     services: '/servizi',
+    demo: '/#demo',
+    calculator: '/calcolatore',
     method: '/come-lavoriamo',
     about: '/chi-siamo',
     contact: '/contatti',
@@ -36,6 +40,8 @@ export const routes: Record<Lang, Record<RouteKey, string>> = {
   en: {
     home: '/en',
     services: '/en/services',
+    demo: '/en#demo',
+    calculator: '/en/calculator',
     method: '/en/how-we-work',
     about: '/en/about',
     contact: '/en/contact',
@@ -47,10 +53,12 @@ export const routes: Record<Lang, Record<RouteKey, string>> = {
 export const ui = {
   it: {
     'nav.services': 'Servizi',
+    'nav.demo': 'Demo live',
+    'nav.calculator': 'Calcolatore',
     'nav.method': 'Come lavoriamo',
     'nav.about': 'Chi siamo',
     'nav.contact': 'Contatti',
-    'nav.cta': 'Prenota una call',
+    'nav.cta': 'Prenotate una consulenza',
     'nav.menu': 'Menu',
     'footer.legal': 'Note legali',
     'footer.privacy': 'Privacy policy',
@@ -60,6 +68,8 @@ export const ui = {
   },
   en: {
     'nav.services': 'Services',
+    'nav.demo': 'Live demo',
+    'nav.calculator': 'Calculator',
     'nav.method': 'How we work',
     'nav.about': 'About',
     'nav.contact': 'Contact',

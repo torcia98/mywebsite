@@ -3,64 +3,66 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import ServiceIcon from '../components/ServiceIcon.astro';
 import CtaBand from '../components/CtaBand.astro';
+import DemoChat from '../components/demos/DemoChat.astro';
+import DemoFlow from '../components/demos/DemoFlow.astro';
+import DemoDocs from '../components/demos/DemoDocs.astro';
+import DemoContent from '../components/demos/DemoContent.astro';
 import { services } from '../data/services';
+import { localizedPath } from '../i18n/ui';
 ---
 
-<Base
-  title="Servizi"
-  description="Assistenti AI e WhatsApp, automazione di documenti e fatture, flussi CRM ed email per PMI italiane."
->
+<Base title="Servizi" description="Assistente virtuale, automazione d'ufficio, gestione intelligente dei documenti e contenuti con l'IA per le PMI italiane.">
   <PageHeader
     eyebrow="Servizi"
-    title="Automazioni AI pensate per come lavora davvero una PMI"
-    intro="Soluzioni pronte da adattare, non software da reinventare. Ci integriamo con gli strumenti che usate già: gestionale, email, WhatsApp, fogli di calcolo, CRM."
-  />
+    title='Quattro servizi, <span class="text-gradient">un problema reale ciascuno.</span>'
+    intro="Ognuno pensato per un problema che le PMI vivono ogni giorno. Sotto ogni servizio trovate una demo funzionante: provatela."
+  >
+    <nav class="mt-10 flex flex-wrap gap-2" aria-label="Servizi">
+      {services.map((s) => <a href={`#${s.id}`} class="btn btn-secondary">{s.shortTitle}</a>)}
+    </nav>
+  </PageHeader>
 
-  <nav class="container-page mt-10 flex flex-wrap gap-2" aria-label="Servizi">
-    {services.map((s) => <a href={`#${s.id}`} class="btn btn-secondary">{s.title}</a>)}
-  </nav>
-
-  <div class="container-page mt-6 divide-y divide-slate-200">
-    {
-      services.map((s) => (
-        <section id={s.id} class="grid scroll-mt-24 gap-10 py-16 lg:grid-cols-5">
-          <div class="lg:col-span-2">
-            <ServiceIcon name={s.icon} />
-            <h2 class="mt-5 text-3xl">{s.title}</h2>
-            <p class="mt-4 text-slate-600">{s.description}</p>
-            <ul class="mt-6 flex flex-wrap gap-2">
-              {s.outcomes.map((o) => (
-                <li class="rounded-full bg-brand-50 px-3 py-1 text-sm font-medium text-brand-800">{o}</li>
-              ))}
-            </ul>
+  {
+    services.map((s, i) => (
+      <section id={s.id} class="container-page scroll-mt-24 border-t border-white/10 py-20">
+        <div class="grid gap-10 lg:grid-cols-5" data-reveal>
+          <div class="lg:col-span-3">
+            <div class="flex items-center gap-4">
+              <ServiceIcon name={s.icon} size="lg" />
+              <span class="font-display text-sm text-slate-500">0{i + 1} / 0{services.length}</span>
+            </div>
+            <h2 class="mt-6 text-4xl">{s.title}</h2>
+            <p class="mt-3 text-xl text-brand-100">{s.hook}</p>
+            <p class="mt-4 text-lg text-slate-400">{s.description}</p>
           </div>
-          <div class="rounded-3xl border border-slate-200 bg-slate-50 p-7 lg:col-span-3">
-            <h3 class="text-lg">Esempi di cosa possiamo automatizzare</h3>
-            <ul class="mt-4 space-y-3">
-              {s.examples.map((e) => (
-                <li class="flex gap-3 text-slate-700">
-                  <svg class="mt-1 size-5 shrink-0 text-brand-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path d="M16.7 5.3a1 1 0 0 1 0 1.4l-8 8a1 1 0 0 1-1.4 0l-4-4a1 1 0 1 1 1.4-1.4L8 12.6l7.3-7.3a1 1 0 0 1 1.4 0z" />
-                  </svg>
-                  <span>{e}</span>
+          <div class="lg:col-span-2">
+            <ul class="space-y-3">
+              {s.benefits.map((b) => (
+                <li class="glass flex gap-3 rounded-2xl px-4 py-3 text-slate-200">
+                  <span class="text-brand-300">✓</span>
+                  {b}
                 </li>
               ))}
             </ul>
+            <p class="mt-5 rounded-2xl border-l-2 border-accent-400 bg-accent-400/5 px-4 py-3 text-sm text-slate-300">
+              <span class="font-semibold text-accent-300">Esempio. </span>
+              {s.example}
+            </p>
           </div>
-        </section>
-      ))
-    }
-  </div>
-
-  <section class="container-page mt-8">
-    <div class="rounded-3xl border border-slate-200 p-8">
-      <h2 class="text-2xl">Non trovate quello che cercate?</h2>
-      <p class="mt-3 max-w-2xl text-slate-600">
-        Ogni azienda ha i suoi processi. Se c’è un’attività ripetitiva che vi porta via tempo, probabilmente si può
-        automatizzare: raccontatecela e vi diciamo onestamente se e come.
-      </p>
-    </div>
-  </section>
+        </div>
+        <div class="mt-12" data-reveal>
+          <p class="mb-5 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Provatelo qui ↓</p>
+          {s.id === 'assistente' && <DemoChat />}
+          {s.id === 'ufficio' && <DemoFlow />}
+          {s.id === 'documenti' && <DemoDocs />}
+          {s.id === 'marketing' && <DemoContent />}
+        </div>
+        <a href={`${localizedPath('it', 'calculator')}?servizio=${s.id}`} class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-brand-300 hover:text-brand-200">
+          Calcolate quanto vale per voi →
+        </a>
+      </section>
+    ))
+  }
 
   <CtaBand />
 </Base>

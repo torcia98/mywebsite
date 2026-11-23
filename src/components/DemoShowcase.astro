@@ -1,0 +1,48 @@
+---
+import DemoChat from './demos/DemoChat.astro';
+import DemoFlow from './demos/DemoFlow.astro';
+import DemoDocs from './demos/DemoDocs.astro';
+import DemoContent from './demos/DemoContent.astro';
+import ServiceIcon from './ServiceIcon.astro';
+import { services } from '../data/services';
+---
+
+<div data-showcase>
+  <div class="flex gap-2 overflow-x-auto pb-2 sm:flex-wrap" role="tablist" aria-label="Demo dei servizi">
+    {
+      services.map((s, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${s.id}`}
+          aria-controls={`demo-${s.id}`}
+          aria-selected={i === 0 ? 'true' : 'false'}
+          data-tab={s.id}
+          class="group flex shrink-0 items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.03] py-2 pr-5 pl-2 text-left text-sm font-medium text-slate-400 transition hover:text-white aria-selected:border-brand-300/50 aria-selected:bg-brand-400/10 aria-selected:text-white"
+        >
+          <ServiceIcon name={s.icon} />
+          {s.shortTitle}
+        </button>
+      ))
+    }
+  </div>
+  <div class="mt-8">
+    <div role="tabpanel" id="demo-assistente" aria-labelledby="tab-assistente" data-panel="assistente"><DemoChat /></div>
+    <div role="tabpanel" id="demo-ufficio" aria-labelledby="tab-ufficio" data-panel="ufficio" hidden><DemoFlow /></div>
+    <div role="tabpanel" id="demo-documenti" aria-labelledby="tab-documenti" data-panel="documenti" hidden><DemoDocs /></div>
+    <div role="tabpanel" id="demo-marketing" aria-labelledby="tab-marketing" data-panel="marketing" hidden><DemoContent /></div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-showcase]').forEach((root) => {
+    const tabs = root.querySelectorAll<HTMLButtonElement>('[data-tab]');
+    const panels = root.querySelectorAll<HTMLElement>('[data-panel]');
+    tabs.forEach((t) =>
+      t.addEventListener('click', () => {
+        tabs.forEach((x) => x.setAttribute('aria-selected', String(x === t)));
+        panels.forEach((p) => (p.hidden = p.dataset.panel !== t.dataset.tab));
+      }),
+    );
+  });
+</script>

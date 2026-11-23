@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Calculator from '../components/Calculator.astro';
+import CtaBand from '../components/CtaBand.astro';
+---
+
+<Base title="Calcolatore del risparmio" description="Stimate in un minuto quanto tempo e quanti euro può far risparmiare l'automazione con l'IA alla vostra azienda.">
+  <PageHeader
+    eyebrow="Calcolatore"
+    title='Quanto può far guadagnare <span class="text-gradient">l’IA alla vostra azienda?</span>'
+    intro="Scegliete il servizio e il settore, poi adattate i cursori alla vostra realtà. La stima si aggiorna in tempo reale."
+  />
+  <section class="container-page"><Calculator /></section>
+  <CtaBand title="Volete numeri precisi, non stime?" text="Nella consulenza gratuita di 30 minuti verifichiamo questi valori sui vostri processi reali e vi diciamo da dove conviene partire." />
+</Base>

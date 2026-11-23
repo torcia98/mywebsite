@@ -1,0 +1,221 @@
+---
+import { services } from '../data/services';
+import { sectors } from '../data/calculator';
+import ServiceIcon from './ServiceIcon.astro';
+import { localizedPath } from '../i18n/ui';
+
+interface Props {
+  initial?: string;
+}
+const { initial = 'assistente' } = Astro.props;
+const sliderCls = 'mt-3';
+---
+
+<div data-calculator data-initial={initial} class="grid gap-6 lg:grid-cols-5">
+  <!-- Inputs -->
+  <div class="glass min-w-0 rounded-3xl p-6 sm:p-8 lg:col-span-3">
+    <p class="text-sm font-medium text-white">1. Scegliete il servizio</p>
+    <div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4" role="radiogroup" aria-label="Servizio">
+      {
+        services.map((s) => (
+          <button
+            type="button"
+            role="radio"
+            data-service={s.id}
+            aria-checked={s.id === initial ? 'true' : 'false'}
+            class="flex flex-col items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.02] p-3 text-left text-sm text-slate-300 transition hover:border-white/25 aria-checked:border-brand-300/60 aria-checked:bg-brand-400/10 aria-checked:text-white"
+          >
+            <ServiceIcon name={s.icon} />
+            <span class="leading-tight font-medium">{s.shortTitle}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="mt-8 grid gap-6 sm:grid-cols-2">
+      <div>
+        <label for="calc-sector" class="text-sm font-medium text-white">2. Il vostro settore</label>
+        <select id="calc-sector" data-sector class="input">
+          {Object.entries(sectors).map(([k, s]) => <option value={k}>{s.label}</option>)}
+        </select>
+      </div>
+      <div>
+        <div class="flex items-baseline justify-between gap-2">
+          <label for="calc-people" class="text-sm font-medium text-white">3. Persone coinvolte</label>
+          <output data-out="people" class="font-display text-lg text-brand-200">3</output>
+        </div>
+        <input id="calc-people" data-in="people" type="range" min="1" max="50" step="1" value="3" class={sliderCls} />
+      </div>
+    </div>
+
+    <div class="mt-6 space-y-6">
+      <div>
+        <div class="flex items-baseline justify-between gap-2">
+          <label for="calc-hours" data-hours-label class="text-sm font-medium text-white">Ore a settimana</label>
+          <output data-out="hours" class="shrink-0 font-display text-lg text-brand-200">8 h</output>
+        </div>
+        <input id="calc-hours" data-in="hours" type="range" min="1" max="40" step="1" value="8" class={sliderCls} />
+      </div>
+      <div>
+        <div class="flex items-baseline justify-between gap-2">
+          <label for="calc-cost" class="text-sm font-medium text-white">Costo orario lordo di una persona</label>
+          <output data-out="cost" class="shrink-0 font-display text-lg text-brand-200">28 €</output>
+        </div>
+        <input id="calc-cost" data-in="cost" type="range" min="12" max="90" step="1" value="28" class={sliderCls} />
+      </div>
+      <div>
+        <div class="flex items-baseline justify-between gap-2">
+          <label for="calc-extra" data-extra-label class="text-sm font-medium text-white">Volume</label>
+          <output data-out="extra" class="shrink-0 font-display text-lg text-brand-200">—</output>
+        </div>
+        <input id="calc-extra" data-in="extra" type="range" class={sliderCls} />
+      </div>
+      <div data-avg-wrap>
+        <div class="flex items-baseline justify-between gap-2">
+          <label for="calc-avg" class="text-sm font-medium text-white">Valore medio di un nuovo cliente</label>
+          <output data-out="avg" class="shrink-0 font-display text-lg text-brand-200">300 €</output>
+        </div>
+        <input id="calc-avg" data-in="avg" type="range" min="20" max="5000" step="10" value="300" class={sliderCls} />
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="relative overflow-hidden rounded-3xl border border-brand-300/30 bg-gradient-to-b from-brand-500/15 via-ink-900 to-ink-900 p-6 sm:p-8 lg:col-span-2">
+    <div class="absolute -top-20 -right-20 size-60 rounded-full bg-brand-400/20 blur-3xl"></div>
+    <p class="relative text-xs font-semibold tracking-wider text-brand-200 uppercase">Beneficio stimato in un anno</p>
+    <p class="relative mt-2 font-display text-5xl font-semibold text-white sm:text-6xl" data-r="total">—</p>
+
+    <div class="relative mt-6 space-y-4">
+      <div>
+        <div class="flex justify-between text-sm"><span class="text-slate-400">Ore liberate al mese</span><span class="font-semibold text-white" data-r="hoursMonth">—</span></div>
+      </div>
+      <div>
+        <div class="flex justify-between text-sm"><span class="text-slate-400">Risparmio sul tempo di lavoro</span><span class="font-semibold text-white" data-r="labour">—</span></div>
+        <div class="mt-2 h-2 overflow-hidden rounded-full bg-white/10"><div data-bar="labour" class="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-200 transition-all duration-500" style="width:0%"></div></div>
+      </div>
+      <div>
+        <div class="flex justify-between gap-3 text-sm"><span class="text-slate-400" data-r="extraLabel">—</span><span class="shrink-0 font-semibold text-white" data-r="extra">—</span></div>
+        <div class="mt-2 h-2 overflow-hidden rounded-full bg-white/10"><div data-bar="extra" class="h-full rounded-full bg-gradient-to-r from-violet-400 to-accent-300 transition-all duration-500" style="width:0%"></div></div>
+      </div>
+      <div class="rounded-2xl bg-white/5 p-4 text-sm">
+        <p class="text-slate-300">È come avere <span class="font-semibold text-white" data-r="fte">—</span> in più, senza assumere.</p>
+      </div>
+    </div>
+
+    <details class="relative mt-5 text-xs text-slate-400">
+      <summary class="cursor-pointer text-slate-300 hover:text-white">Come calcoliamo questi numeri</summary>
+      <ul class="mt-2 list-disc space-y-1 pl-4">
+        <li data-r="rateNote"></li>
+        <li data-r="extraNote"></li>
+        <li>Anno lavorativo di 46 settimane. Stime indicative, non un’offerta: i numeri reali li verifichiamo insieme nell’analisi gratuita.</li>
+      </ul>
+    </details>
+
+    <a href={localizedPath('it', 'contact')} data-cta class="btn btn-primary relative mt-6 w-full py-3">Verifichiamo questi numeri insieme</a>
+  </div>
+</div>
+
+<script>
+  import { calcModels, sectors, WEEKS_PER_YEAR, type SectorId } from '../data/calculator';
+  import type { ServiceId } from '../data/services';
+
+  const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0, useGrouping: 'always' } as Intl.NumberFormatOptions);
+  const num = (n: number) => Math.round(n).toLocaleString('it-IT', { useGrouping: 'always' } as Intl.NumberFormatOptions);
+
+  document.querySelectorAll<HTMLElement>('[data-calculator]').forEach((root) => {
+    let service = (root.dataset.initial as ServiceId) ?? 'assistente';
+    const $ = <T extends HTMLElement>(s: string) => root.querySelector<T>(s)!;
+    const inp = (k: string) => $<HTMLInputElement>(`[data-in="${k}"]`);
+    const out = (k: string) => $<HTMLOutputElement>(`[data-out="${k}"]`);
+    const res = (k: string) => $<HTMLElement>(`[data-r="${k}"]`);
+    const bar = (k: string) => $<HTMLElement>(`[data-bar="${k}"]`);
+    const sector = $<HTMLSelectElement>('[data-sector]');
+    const svcBtns = root.querySelectorAll<HTMLButtonElement>('[data-service]');
+    const cta = $<HTMLAnchorElement>('[data-cta]');
+    const totalEl = res('total');
+    let shownTotal = 0;
+    let anim = 0;
+
+    const animateTotal = (to: number) => {
+      cancelAnimationFrame(anim);
+      const from = shownTotal;
+      const start = performance.now();
+      const step = (now: number) => {
+        const p = Math.min(1, (now - start) / 450);
+        shownTotal = from + (to - from) * (1 - Math.pow(1 - p, 3));
+        totalEl.textContent = eur(shownTotal);
+        if (p < 1) anim = requestAnimationFrame(step);
+      };
+      anim = requestAnimationFrame(step);
+    };
+
+    const applyService = () => {
+      const m = calcModels[service];
+      svcBtns.forEach((b) => b.setAttribute('aria-checked', String(b.dataset.service === service)));
+      $('[data-hours-label]').textContent = m.hoursLabel;
+      $('[data-extra-label]').textContent = m.extra.label;
+      const ex = inp('extra');
+      ex.min = String(m.extra.min);
+      ex.max = String(m.extra.max);
+      ex.step = String(m.extra.step);
+      ex.value = String(m.extra.value);
+      $('[data-avg-wrap]').hidden = !m.usesAvgValue;
+      res('extraLabel').textContent = m.extraLabel;
+      res('rateNote').textContent = `Con questo servizio automatizziamo in media il ${Math.round(m.automationRate * 100)}% del tempo dedicato all’attività.`;
+      res('extraNote').textContent = m.extraNote;
+      cta.href = cta.href.split('?')[0] + `?servizio=${service}`;
+      update();
+    };
+
+    const applySector = () => {
+      const s = sectors[sector.value as SectorId];
+      inp('cost').value = String(s.hourlyCost);
+      inp('avg').value = String(s.avgValue);
+      update();
+    };
+
+    function update() {
+      const m = calcModels[service];
+      const people = +inp('people').value;
+      const hours = +inp('hours').value;
+      const cost = +inp('cost').value;
+      const extraV = +inp('extra').value;
+      const avg = +inp('avg').value;
+
+      out('people').value = String(people);
+      out('hours').value = `${hours} h`;
+      out('cost').value = `${cost} €`;
+      out('extra').value = (m.extra.prefix ?? '') + num(extraV);
+      out('avg').value = eur(avg);
+
+      const hoursYear = people * hours * WEEKS_PER_YEAR * m.automationRate;
+      const labour = hoursYear * cost;
+      const extra = m.computeExtra(extraV, avg);
+      const total = labour + extra;
+
+      res('hoursMonth').textContent = `${num(hoursYear / 12)} h`;
+      res('labour').textContent = eur(labour);
+      res('extra').textContent = eur(extra);
+      const fte = hoursYear / (40 * WEEKS_PER_YEAR);
+      res('fte').textContent = fte >= 1 ? `${fte.toLocaleString('it-IT', { maximumFractionDigits: 1 })} persone a tempo pieno` : `${Math.round(fte * 100)}% di una persona a tempo pieno`;
+      const max = Math.max(labour, extra, 1);
+      bar('labour').style.width = `${(labour / max) * 100}%`;
+      bar('extra').style.width = `${(extra / max) * 100}%`;
+      animateTotal(total);
+    }
+
+    svcBtns.forEach((b) =>
+      b.addEventListener('click', () => {
+        service = b.dataset.service as ServiceId;
+        applyService();
+      }),
+    );
+    sector.addEventListener('change', applySector);
+    root.querySelectorAll('input[type="range"]').forEach((el) => el.addEventListener('input', update));
+
+    const fromUrl = new URLSearchParams(location.search).get('servizio') as ServiceId | null;
+    if (fromUrl && fromUrl in calcModels) service = fromUrl;
+    applyService();
+  });
+</script>

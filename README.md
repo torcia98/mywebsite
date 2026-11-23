@@ -17,10 +17,18 @@ npm run preview
 | Path | Contenuto |
 | --- | --- |
 | `src/config/site.ts` | Nome, dati legali, contatti, link di prenotazione e endpoint del form (**tutti segnaposto**) |
-| `src/data/services.ts` | Catalogo servizi (chatbot/WhatsApp, documenti e fatture, CRM ed email) |
+| `src/data/services.ts` | Catalogo dei quattro servizi (testi dal documento "Testi del sito") |
+| `src/data/calculator.ts` | Modello del calcolatore: percentuali di automazione e ipotesi per servizio, preset per settore |
+| `src/components/demos/` | Demo interattive: chat WhatsApp, flusso ordini prima/dopo, lettura fatture, schede prodotto |
 | `src/i18n/ui.ts` | Stringhe UI, rotte localizzate, interruttore lingua |
-| `src/pages/` | Pagine italiane: home, servizi, come-lavoriamo, chi-siamo, contatti, privacy, cookie, 404 |
+| `src/pages/` | Pagine italiane: home, servizi, calcolatore, come-lavoriamo, chi-siamo, contatti, privacy, cookie, 404 |
 | `src/styles/global.css` | Tema Tailwind (palette brand, font) |
+
+## Demo e calcolatore
+
+Le demo sono simulazioni scriptate che girano nel browser: nessuna chiamata a servizi di IA e nessun dato inviato.
+Gli esempi sono scenari verosimili, non clienti reali. Le ipotesi del calcolatore sono in `src/data/calculator.ts`
+e vengono mostrate al visitatore: aggiornatele con i dati dei primi progetti.
 
 ## Form di contatto
 

@@ -25,7 +25,7 @@ const values = [
   />
 
   <section class="container-page mt-16 grid gap-12 lg:grid-cols-2">
-    <div class="space-y-4 text-lg text-slate-700">
+    <div class="space-y-4 text-lg text-slate-300">
       <h2 class="text-3xl">La nostra missione</h2>
       <p>
         Le piccole e medie imprese sono la spina dorsale dell’economia italiana, ma spesso hanno poco tempo e poche
@@ -36,14 +36,14 @@ const values = [
         Lavoriamo con aziende di servizi, commercio, artigianato, studi professionali e manifattura in tutta Italia, in
         presenza e da remoto.
       </p>
-      <p class="text-sm text-slate-400">Testo segnaposto: da sostituire con la storia reale dell’azienda.</p>
+      <p class="text-sm text-slate-500">Testo segnaposto: da sostituire con la storia reale dell’azienda.</p>
     </div>
     <div class="grid gap-4">
       {
         values.map((v) => (
-          <div class="rounded-2xl border border-slate-200 p-6">
+          <div class="spotlight glass rounded-2xl p-6">
             <h3 class="text-lg">{v.title}</h3>
-            <p class="mt-2 text-slate-600">{v.text}</p>
+            <p class="mt-2 text-slate-400">{v.text}</p>
           </div>
         ))
       }
@@ -55,10 +55,10 @@ const values = [
     <ul class="mt-8 grid gap-6 sm:grid-cols-3">
       {
         team.map((m) => (
-          <li class="rounded-2xl border border-slate-200 p-6 text-center">
-            <div class="mx-auto size-24 rounded-full bg-gradient-to-br from-brand-200 to-brand-500" aria-hidden="true" />
-            <p class="mt-4 font-semibold text-slate-900">{m.name}</p>
-            <p class="text-sm text-slate-600">{m.role}</p>
+          <li class="rounded-2xl border border-white/10 p-6 text-center">
+            <div class="mx-auto size-24 rounded-full bg-gradient-to-br from-brand-400 to-violet-500" aria-hidden="true" />
+            <p class="mt-4 font-semibold text-white">{m.name}</p>
+            <p class="text-sm text-slate-400">{m.role}</p>
           </li>
         ))
       }

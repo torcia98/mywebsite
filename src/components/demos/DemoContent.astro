@@ -1,0 +1,160 @@
+---
+/** Product description generator demo (templated, runs in the browser). */
+const products = [
+  { id: 'sedia', name: 'Sedia Trullo', nameEn: 'Trullo Chair', material: 'rovere massello', materialEn: 'solid oak', detail: 'seduta in lana cotta', detailEn: 'boiled-wool seat', dims: '45 × 52 × 80 cm', price: '189 €', room: 'sala da pranzo', roomEn: 'dining room' },
+  { id: 'lampada', name: 'Lampada Murgia', nameEn: 'Murgia Lamp', material: 'ceramica di Grottaglie', materialEn: 'Grottaglie ceramic', detail: 'luce LED dimmerabile', detailEn: 'dimmable LED light', dims: 'h 190 cm', price: '329 €', room: 'soggiorno', roomEn: 'living room' },
+  { id: 'tavolo', name: 'Tavolo Convivio', nameEn: 'Convivio Table', material: 'legno d’ulivo', materialEn: 'olive wood', detail: 'allungabile fino a 10 posti', detailEn: 'extends to seat 10', dims: '160/240 × 90 cm', price: '1.290 €', room: 'cucina', roomEn: 'kitchen' },
+];
+---
+
+<div data-demo-content data-products={JSON.stringify(products)} class="grid gap-6 lg:grid-cols-5">
+  <div class="glass min-w-0 space-y-5 rounded-3xl p-6 lg:col-span-2">
+    <div>
+      <p class="text-xs font-semibold tracking-wider text-accent-400 uppercase">Prima</p>
+      <div class="mt-2 rounded-xl border border-dashed border-white/15 p-3 font-mono text-xs text-slate-500">
+        <span data-raw></span>
+      </div>
+    </div>
+    <fieldset>
+      <legend class="text-sm font-medium text-white">Prodotto</legend>
+      <div class="mt-2 flex flex-wrap gap-2">
+        {
+          products.map((p, i) => (
+            <button type="button" data-product={p.id} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">
+              {p.name}
+            </button>
+          ))
+        }
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend class="text-sm font-medium text-white">Tono di voce</legend>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <button type="button" data-tone="elegante" aria-pressed="true" class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">Elegante</button>
+        <button type="button" data-tone="amichevole" aria-pressed="false" class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">Amichevole</button>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend class="text-sm font-medium text-white">Lingua</legend>
+      <div class="mt-2 flex flex-wrap gap-2">
+        <button type="button" data-lang="it" aria-pressed="true" class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">🇮🇹 Italiano</button>
+        <button type="button" data-lang="en" aria-pressed="false" class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">🇬🇧 English</button>
+      </div>
+    </fieldset>
+    <button type="button" data-generate class="btn btn-primary w-full">
+      <svg class="size-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"></path></svg>
+      Genera la scheda prodotto
+    </button>
+  </div>
+
+  <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-white p-6 text-slate-800 min-w-0 lg:col-span-3">
+    <p class="text-xs font-semibold tracking-wider text-brand-700 uppercase">Dopo · anteprima sul vostro e-commerce</p>
+    <div class="mt-4 flex gap-5">
+      <div class="hidden size-28 shrink-0 rounded-2xl bg-gradient-to-br from-amber-100 via-stone-200 to-stone-300 sm:block" aria-hidden="true"></div>
+      <div class="min-w-0 flex-1">
+        <h3 data-title class="font-display text-2xl text-slate-900"></h3>
+        <p data-price class="mt-1 text-lg font-semibold text-brand-700"></p>
+      </div>
+    </div>
+    <p data-output class="mt-5 min-h-[9rem] leading-relaxed text-slate-700" aria-live="polite"></p>
+    <ul data-bullets class="mt-4 grid gap-2 text-sm text-slate-600 sm:grid-cols-2"></ul>
+    <div data-meta class="mt-5 hidden flex-wrap gap-2 border-t border-slate-200 pt-4 text-xs">
+      <span class="rounded-full bg-emerald-50 px-2.5 py-1 text-emerald-700">SEO: titolo e meta description pronti</span>
+      <span class="rounded-full bg-violet-50 px-2.5 py-1 text-violet-700">Tono di voce del marchio rispettato</span>
+      <span class="rounded-full bg-amber-50 px-2.5 py-1 text-amber-700">In attesa della vostra approvazione</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  type P = Record<string, string>;
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+  const templates: Record<string, (p: P) => { text: string; bullets: string[] }> = {
+    'it-elegante': (p) => ({
+      text: `${p.name} unisce linee essenziali e calore mediterraneo, nel segno dell’artigianato pugliese. In ${p.material}, con ${p.detail}, porta nella vostra ${p.room} un equilibrio raffinato tra forma e funzione, pensato per durare nel tempo.`,
+      bullets: [`Materiale: ${p.material}`, `Dettaglio: ${p.detail}`, `Dimensioni: ${p.dims}`, 'Realizzato a mano in Puglia'],
+    }),
+    'it-amichevole': (p) => ({
+      text: `Vi presentiamo ${p.name}: un pezzo bello da vedere e comodo da vivere! 😊 È in ${p.material}, ha ${p.detail} e sta benissimo in ${p.room}. Il tipo di pezzo che fa dire agli ospiti: “Ma dove l’avete preso?”`,
+      bullets: [`In ${p.material}`, `Con ${p.detail}`, `Misure: ${p.dims}`, 'Spedizione gratuita in Italia'],
+    }),
+    'en-elegante': (p) => ({
+      text: `${p.nameEn} combines clean lines with Mediterranean warmth, true to Apulian craftsmanship. Crafted in ${p.materialEn} with a ${p.detailEn}, it adds refined balance to any ${p.roomEn}, made to last for years.`,
+      bullets: [`Material: ${p.materialEn}`, `Detail: ${p.detailEn}`, `Size: ${p.dims}`, 'Handmade in Apulia'],
+    }),
+    'en-amichevole': (p) => ({
+      text: `Meet ${p.nameEn}: gorgeous to look at, a joy to live with! 😊 Made in ${p.materialEn}, with a ${p.detailEn}, it feels right at home in your ${p.roomEn}. Your guests will definitely ask where you found it.`,
+      bullets: [`Made of ${p.materialEn}`, `Features a ${p.detailEn}`, `Size: ${p.dims}`, 'Free shipping across Europe'],
+    }),
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-demo-content]').forEach((root) => {
+    const products = JSON.parse(root.dataset.products!) as P[];
+    const state = { product: products[0].id, tone: 'elegante', lang: 'it' };
+    const raw = root.querySelector<HTMLElement>('[data-raw]')!;
+    const title = root.querySelector<HTMLElement>('[data-title]')!;
+    const price = root.querySelector<HTMLElement>('[data-price]')!;
+    const out = root.querySelector<HTMLElement>('[data-output]')!;
+    const bullets = root.querySelector<HTMLElement>('[data-bullets]')!;
+    const meta = root.querySelector<HTMLElement>('[data-meta]')!;
+    let run = 0;
+
+    const current = () => products.find((p) => p.id === state.product)!;
+    const showRaw = () => {
+      const p = current();
+      raw.textContent = `${p.name.toUpperCase()} - ${p.material} - ${p.dims} - ${p.price} (descrizione mancante)`;
+      title.textContent = state.lang === 'en' ? p.nameEn : p.name;
+      price.textContent = p.price;
+      out.innerHTML = '<span class="text-slate-400">Nessuna descrizione. Premete “Genera la scheda prodotto”.</span>';
+      bullets.innerHTML = '';
+      meta.classList.add('hidden');
+      meta.classList.remove('flex');
+    };
+
+    const bind = (attr: 'product' | 'tone' | 'lang') => {
+      const btns = root.querySelectorAll<HTMLButtonElement>(`[data-${attr}]`);
+      btns.forEach((b) =>
+        b.addEventListener('click', () => {
+          state[attr] = b.dataset[attr]!;
+          btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+          run++;
+          showRaw();
+        }),
+      );
+    };
+    bind('product');
+    bind('tone');
+    bind('lang');
+
+    root.querySelector('[data-generate]')!.addEventListener('click', async () => {
+      const id = ++run;
+      showRaw();
+      const p = current();
+      const { text, bullets: bl } = templates[`${state.lang}-${state.tone}`](p);
+      out.textContent = '';
+      const caret = document.createElement('span');
+      caret.className = 'ml-0.5 inline-block h-4 w-0.5 animate-blink bg-brand-600 align-middle';
+      for (let i = 0; i < text.length; i++) {
+        if (id !== run) return;
+        out.textContent = text.slice(0, i + 1);
+        out.appendChild(caret);
+        await sleep(text[i] === ' ' ? 18 : 11);
+      }
+      caret.remove();
+      for (const b of bl) {
+        if (id !== run) return;
+        const li = document.createElement('li');
+        li.className = 'flex items-center gap-2';
+        li.innerHTML = '<span class="text-brand-600">●</span>';
+        li.append(b);
+        bullets.appendChild(li);
+        await sleep(120);
+      }
+      meta.classList.remove('hidden');
+      meta.classList.add('flex');
+    });
+
+    showRaw();
+  });
+</script>

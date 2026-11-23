@@ -2,136 +2,210 @@
 import Base from '../layouts/Base.astro';
 import ServiceIcon from '../components/ServiceIcon.astro';
 import CtaBand from '../components/CtaBand.astro';
+import Marquee from '../components/Marquee.astro';
+import DemoShowcase from '../components/DemoShowcase.astro';
+import Calculator from '../components/Calculator.astro';
+import Faq from '../components/Faq.astro';
 import { services } from '../data/services';
 import { localizedPath } from '../i18n/ui';
 
-const benefits = [
-  { value: '10+', label: 'ore risparmiate a settimana per persona, in media*' },
-  { value: '2–4', label: 'settimane per mettere in produzione la prima automazione' },
-  { value: '100%', label: 'dati trattati nel rispetto del GDPR, su server UE' },
+const steps = [
+  { n: '01', title: 'Ascoltiamo', text: 'Una chiacchierata gratuita di 30 minuti per capire come lavorate e dove perdete più tempo.' },
+  { n: '02', title: 'Proponiamo', text: 'Vi presentiamo una soluzione concreta, con tempi e costi chiari, senza sorprese.' },
+  { n: '03', title: 'Realizziamo', text: 'Costruiamo e colleghiamo tutto ai vostri strumenti, poi formiamo il vostro team con calma.' },
+  { n: '04', title: 'Miglioriamo', text: 'Restiamo al vostro fianco, misuriamo i risultati e facciamo aggiustamenti quando serve.' },
 ];
 
-const steps = [
-  { n: '01', title: 'Analisi gratuita', text: 'Capiamo come lavorate e dove si perde più tempo.' },
-  { n: '02', title: 'Progetto pilota', text: 'Partiamo da un caso concreto, con costi e risultati chiari.' },
-  { n: '03', title: 'Messa in opera', text: 'Integriamo l’automazione nei vostri strumenti e formiamo il team.' },
-  { n: '04', title: 'Miglioramento continuo', text: 'Misuriamo i risultati e ottimizziamo nel tempo.' },
+const why = [
+  { title: 'Parliamo la vostra lingua', text: 'Niente gergo tecnico: vi spieghiamo tutto in modo chiaro, e decidete voi.' },
+  { title: 'Conosciamo le PMI italiane', text: 'Sappiamo come funzionano i gestionali, la fatturazione elettronica e le abitudini dei vostri clienti.' },
+  { title: 'I vostri dati restano al sicuro', text: 'Lavoriamo nel rispetto del GDPR e scegliamo strumenti affidabili, con dati trattati in Europa quando possibile.' },
+  { title: 'Prezzi chiari, progetti su misura', text: 'Partiamo da un progetto piccolo e dal costo definito, così vedete i risultati prima di investire di più.' },
 ];
+
+// Bento layout: first and last cards are wide.
+const spans = ['lg:col-span-4', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-4'];
 ---
 
 <Base>
-  <!-- Hero -->
-  <section class="relative overflow-hidden bg-gradient-to-b from-brand-50 via-white to-white">
-    <div class="container-page grid items-center gap-12 py-20 lg:grid-cols-2 lg:py-28">
+  <!-- ============ HERO ============ -->
+  <section class="relative isolate overflow-hidden pt-36 pb-24 sm:pt-44 lg:pb-32">
+    <div class="grid-bg absolute inset-0 -z-10"></div>
+    <div class="animate-aurora absolute -top-40 -left-40 -z-10 size-[42rem] rounded-full bg-brand-500/25 blur-[130px]"></div>
+    <div class="animate-aurora absolute top-20 -right-40 -z-10 size-[36rem] rounded-full bg-violet-600/25 blur-[130px] [animation-delay:-6s]"></div>
+
+    <div class="container-page grid items-center gap-16 lg:grid-cols-[1.1fr_1fr]">
       <div>
-        <p class="eyebrow">AI e automazione per le PMI</p>
-        <h1 class="mt-3 text-4xl leading-tight sm:text-5xl lg:text-6xl">
-          Meno lavoro ripetitivo, <span class="text-brand-600">più tempo per i clienti.</span>
-        </h1>
-        <p class="mt-6 max-w-xl text-lg text-slate-600">
-          Aiutiamo piccole e medie imprese italiane a usare l’intelligenza artificiale in modo semplice e concreto:
-          assistenti che rispondono ai clienti, documenti che si compilano da soli, processi che girano senza intoppi.
+        <p class="eyebrow" data-reveal>
+          <span class="relative flex size-2"><span class="absolute inline-flex size-full animate-ping rounded-full bg-brand-300 opacity-75"></span><span class="relative inline-flex size-2 rounded-full bg-brand-300"></span></span>
+          Intelligenza artificiale per le PMI italiane
         </p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href={localizedPath('it', 'contact') + '#prenota'} class="btn btn-primary">Prenota un’analisi gratuita</a>
-          <a href={localizedPath('it', 'services')} class="btn btn-secondary">Scopri i servizi</a>
+        <h1 class="mt-6 text-5xl leading-[1.02] sm:text-6xl lg:text-7xl" data-reveal style="--reveal-delay:80ms">
+          Meno lavoro ripetitivo, <span class="text-gradient">più tempo per i vostri clienti.</span>
+        </h1>
+        <p class="mt-7 max-w-xl text-lg text-slate-400" data-reveal style="--reveal-delay:160ms">
+          Automatizziamo le attività che vi rubano tempo e miglioriamo l’esperienza dei vostri clienti, senza stravolgere il
+          vostro modo di lavorare. Non ci credete? Provate le demo qui sotto.
+        </p>
+        <div class="mt-9 flex flex-wrap gap-3" data-reveal style="--reveal-delay:240ms">
+          <a href="#demo" class="btn btn-primary px-6 py-3 text-base">Provate le demo dal vivo</a>
+          <a href={localizedPath('it', 'calculator')} class="btn btn-secondary px-6 py-3 text-base">Calcolate il risparmio</a>
         </div>
-        <p class="mt-4 text-sm text-slate-500">Nessun impegno. Ti rispondiamo entro un giorno lavorativo.</p>
+        <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400" data-reveal style="--reveal-delay:320ms">
+          {['Pronte in poche settimane', 'Nessuna competenza tecnica', 'Risultati misurabili'].map((t) => (
+            <li class="flex items-center gap-2"><span class="text-brand-300">✓</span>{t}</li>
+          ))}
+        </ul>
       </div>
 
-      <!-- Illustrative mock chat (placeholder visual) -->
-      <div class="relative mx-auto w-full max-w-md" aria-hidden="true">
-        <div class="absolute -inset-6 -z-10 rounded-[2rem] bg-brand-100/60 blur-2xl"></div>
-        <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl">
-          <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
-            <span class="size-9 rounded-full bg-brand-600"></span>
-            <div>
-              <p class="text-sm font-semibold">Assistente • Ferramenta Rossi</p>
-              <p class="text-xs text-emerald-600">online</p>
+      <!-- Floating "live" composition -->
+      <div class="relative mx-auto h-[30rem] w-full max-w-lg" aria-hidden="true" data-reveal style="--reveal-delay:200ms">
+        <div class="absolute inset-8 rounded-full border border-white/5"></div>
+        <div class="absolute inset-20 rounded-full border border-dashed border-brand-300/15 animate-[spin_60s_linear_infinite]"></div>
+
+        <div class="glass animate-float absolute top-0 left-0 w-72 rounded-3xl p-4 shadow-2xl">
+          <div class="flex items-center gap-2 text-xs text-slate-400"><span class="size-2 rounded-full bg-emerald-400"></span> WhatsApp · 23:14</div>
+          <p class="mt-3 w-fit rounded-2xl rounded-br-sm bg-gradient-to-br from-brand-400 to-brand-300 px-3 py-2 text-sm text-ink-950">Avete posto sabato per 4?</p>
+          <p class="mt-2 w-fit rounded-2xl rounded-bl-sm bg-white/10 px-3 py-2 text-sm text-slate-100">Sì! Tavolo alle 20:30 confermato ✅</p>
+        </div>
+
+        <div class="glass animate-float absolute top-36 right-0 w-64 rounded-3xl p-5 shadow-2xl [animation-delay:-2s]">
+          <p class="text-xs text-slate-400">Ore liberate questo mese</p>
+          <p class="mt-1 font-display text-5xl text-white"><span data-count="126">0</span><span class="text-brand-300">h</span></p>
+          <svg viewBox="0 0 200 50" class="mt-3 h-12 w-full"><defs><linearGradient id="sp" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4df3e2" stop-opacity=".5"/><stop offset="1" stop-color="#4df3e2" stop-opacity="0"/></linearGradient></defs><path d="M0 45 L25 40 L50 42 L75 30 L100 32 L125 20 L150 22 L175 10 L200 5 L200 50 L0 50Z" fill="url(#sp)"/><path d="M0 45 L25 40 L50 42 L75 30 L100 32 L125 20 L150 22 L175 10 L200 5" fill="none" stroke="#4df3e2" stroke-width="2"/></svg>
+        </div>
+
+        <div class="glass animate-float absolute bottom-0 left-8 w-72 rounded-3xl p-4 shadow-2xl [animation-delay:-4s]">
+          <div class="flex items-center gap-3">
+            <span class="flex size-10 items-center justify-center rounded-xl bg-violet-500/20 text-violet-200">📄</span>
+            <div class="flex-1 text-sm">
+              <p class="font-medium text-white">48 fatture lette</p>
+              <p class="text-xs text-slate-400">2 anomalie segnalate</p>
             </div>
+            <span class="rounded-full bg-brand-400/15 px-2 py-0.5 text-xs text-brand-200">auto</span>
           </div>
-          <div class="space-y-3 pt-4 text-sm">
-            <p class="ml-auto w-fit max-w-[80%] rounded-2xl rounded-br-sm bg-brand-600 px-4 py-2 text-white">Buongiorno, siete aperti sabato pomeriggio?</p>
-            <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-slate-100 px-4 py-2">Buongiorno! Sabato siamo aperti dalle 9 alle 13. Vuole che le prenoti un ritiro per lunedì mattina?</p>
-            <p class="ml-auto w-fit max-w-[80%] rounded-2xl rounded-br-sm bg-brand-600 px-4 py-2 text-white">Sì grazie, alle 9:30</p>
-            <p class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-slate-100 px-4 py-2">Fatto ✅ Le ho inviato la conferma. A lunedì!</p>
-          </div>
+          <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-white/10"><div class="h-full w-[92%] rounded-full bg-gradient-to-r from-violet-400 to-brand-300"></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Benefits -->
-  <section class="container-page">
-    <dl class="grid gap-6 rounded-3xl border border-slate-200 p-8 sm:grid-cols-3">
-      {
-        benefits.map((b) => (
-          <div>
-            <dt class="text-4xl font-semibold text-brand-700">{b.value}</dt>
-            <dd class="mt-1 text-sm text-slate-600">{b.label}</dd>
-          </div>
-        ))
-      }
-    </dl>
-    <p class="mt-3 text-xs text-slate-400">* Valori indicativi di esempio, da sostituire con dati reali.</p>
-  </section>
+  <Marquee />
 
-  <!-- Services -->
-  <section class="container-page mt-24">
-    <div class="max-w-2xl">
-      <p class="eyebrow">Servizi</p>
-      <h2 class="mt-2 text-3xl sm:text-4xl">Tre aree, un unico obiettivo: far lavorare meglio la vostra azienda</h2>
+  <!-- ============ SERVICES (bento) ============ -->
+  <section class="container-page mt-32">
+    <div class="max-w-3xl" data-reveal>
+      <p class="eyebrow">I nostri servizi</p>
+      <h2 class="mt-5 text-4xl sm:text-5xl">Non vendiamo tecnologia: <span class="text-gradient">risolviamo problemi.</span></h2>
+      <p class="mt-5 text-lg text-slate-400">
+        Partiamo da quello che vi fa perdere tempo e costruiamo la soluzione più semplice che funziona.
+      </p>
     </div>
-    <div class="mt-10 grid gap-6 md:grid-cols-3">
+    <div class="mt-12 grid gap-5 lg:grid-cols-6">
       {
-        services.map((s) => (
+        services.map((s, i) => (
           <a
             href={`${localizedPath('it', 'services')}#${s.id}`}
-            class="group rounded-3xl border border-slate-200 p-7 transition hover:-translate-y-0.5 hover:border-brand-300 hover:shadow-lg"
+            class:list={['spotlight glass group flex flex-col rounded-3xl p-7 transition hover:border-brand-300/40', spans[i]]}
+            data-reveal
+            style={`--reveal-delay:${i * 80}ms`}
           >
-            <ServiceIcon name={s.icon} />
-            <h3 class="mt-5 text-xl">{s.title}</h3>
-            <p class="mt-2 text-slate-600">{s.short}</p>
-            <span class="mt-4 inline-block text-sm font-semibold text-brand-700 group-hover:underline">Scopri di più →</span>
+            <ServiceIcon name={s.icon} size="lg" />
+            <h3 class="mt-6 text-2xl">{s.title}</h3>
+            <p class="mt-2 text-lg text-brand-100/90">{s.hook}</p>
+            <p class="mt-3 text-slate-400">{s.description}</p>
+            <span class="mt-auto pt-6 text-sm font-semibold text-brand-300">
+              Scoprite di più <span class="inline-block transition-transform group-hover:translate-x-1">→</span>
+            </span>
           </a>
         ))
       }
     </div>
   </section>
 
-  <!-- Method -->
-  <section class="mt-24 bg-slate-50 py-20">
+  <!-- ============ LIVE DEMOS ============ -->
+  <section id="demo" class="relative mt-32 scroll-mt-24">
+    <div class="absolute inset-x-0 top-20 -z-10 mx-auto h-96 max-w-4xl rounded-full bg-brand-500/10 blur-[120px]"></div>
     <div class="container-page">
-      <div class="max-w-2xl">
-        <p class="eyebrow">Come lavoriamo</p>
-        <h2 class="mt-2 text-3xl sm:text-4xl">Semplice, graduale, misurabile</h2>
-        <p class="mt-4 text-slate-600">
-          Niente progetti infiniti: partiamo da un problema reale e lo risolviamo in poche settimane.
+      <div class="max-w-3xl" data-reveal>
+        <p class="eyebrow">Demo dal vivo</p>
+        <h2 class="mt-5 text-4xl sm:text-5xl">Non ve lo raccontiamo. <span class="text-gradient">Ve lo facciamo provare.</span></h2>
+        <p class="mt-5 text-lg text-slate-400">
+          Quattro esempi concreti di quello che costruiamo. Cliccate, scrivete, premete i pulsanti: funzionano davvero.
         </p>
       </div>
-      <ol class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          steps.map((s) => (
-            <li class="rounded-2xl bg-white p-6 shadow-sm">
-              <span class="text-sm font-semibold text-accent-600">{s.n}</span>
-              <h3 class="mt-2 text-lg">{s.title}</h3>
-              <p class="mt-2 text-sm text-slate-600">{s.text}</p>
-            </li>
-          ))
-        }
-      </ol>
-      <a href={localizedPath('it', 'method')} class="btn btn-secondary mt-8">Il nostro metodo</a>
+      <div class="mt-12" data-reveal>
+        <DemoShowcase />
+      </div>
+      <p class="mt-6 text-xs text-slate-500">Le demo usano dati di esempio e girano interamente nel vostro browser: nessun dato viene inviato.</p>
     </div>
   </section>
 
-  <!-- Testimonial placeholder -->
-  <section class="container-page mt-24">
-    <figure class="mx-auto max-w-3xl text-center">
-      <blockquote class="text-2xl leading-snug font-medium text-slate-900">
-        “Prima passavamo i lunedì mattina a registrare fatture. Adesso lo fa il sistema e noi controlliamo solo le eccezioni.”
-      </blockquote>
-      <figcaption class="mt-5 text-sm text-slate-500">Nome Cognome, Titolare · Azienda di esempio (testimonianza segnaposto)</figcaption>
-    </figure>
+  <!-- ============ CALCULATOR ============ -->
+  <section id="calcolatore" class="container-page mt-32 scroll-mt-24">
+    <div class="max-w-3xl" data-reveal>
+      <p class="eyebrow">Calcolatore</p>
+      <h2 class="mt-5 text-4xl sm:text-5xl">Quanto vale <span class="text-gradient">per la vostra azienda?</span></h2>
+      <p class="mt-5 text-lg text-slate-400">
+        Scegliete un servizio, il settore e muovete i cursori: vedete subito una stima del tempo liberato e del beneficio economico in un anno.
+      </p>
+    </div>
+    <div class="mt-12" data-reveal><Calculator /></div>
+  </section>
+
+  <!-- ============ HOW WE WORK ============ -->
+  <section class="container-page mt-32">
+    <div class="flex flex-wrap items-end justify-between gap-6" data-reveal>
+      <div class="max-w-2xl">
+        <p class="eyebrow">Come lavoriamo</p>
+        <h2 class="mt-5 text-4xl sm:text-5xl">Semplice, dall’inizio alla fine</h2>
+      </div>
+      <a href={localizedPath('it', 'method')} class="btn btn-secondary">Il metodo nel dettaglio</a>
+    </div>
+    <ol class="relative mt-12 grid gap-5 md:grid-cols-4">
+      <div class="absolute top-7 right-[12%] left-[12%] hidden h-px bg-gradient-to-r from-brand-400/0 via-brand-400/50 to-brand-400/0 md:block"></div>
+      {
+        steps.map((s, i) => (
+          <li class="relative" data-reveal style={`--reveal-delay:${i * 100}ms`}>
+            <span class="relative flex size-14 items-center justify-center rounded-2xl border border-brand-300/30 bg-ink-900 font-display text-lg text-brand-200 shadow-[0_0_30px_-5px] shadow-brand-400/40">
+              {s.n}
+            </span>
+            <h3 class="mt-5 text-xl">{s.title}</h3>
+            <p class="mt-2 text-slate-400">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+    <p class="mt-10 text-lg text-slate-300" data-reveal>Partiamo in piccolo, con un progetto pilota. <span class="text-white">Se funziona, cresciamo insieme.</span></p>
+  </section>
+
+  <!-- ============ WHY US ============ -->
+  <section class="container-page mt-32">
+    <div class="max-w-3xl" data-reveal>
+      <p class="eyebrow">Perché scegliere Automa</p>
+      <h2 class="mt-5 text-4xl sm:text-5xl">Tecnologia avanzata, <span class="text-gradient">linguaggio semplice.</span></h2>
+    </div>
+    <div class="mt-12 grid gap-5 sm:grid-cols-2">
+      {
+        why.map((w, i) => (
+          <div class="spotlight glass rounded-3xl p-7" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+            <span class="font-display text-sm text-brand-300">0{i + 1}</span>
+            <h3 class="mt-3 text-xl">{w.title}</h3>
+            <p class="mt-2 text-slate-400">{w.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="container-page mt-32 grid gap-10 lg:grid-cols-3">
+    <div data-reveal>
+      <p class="eyebrow">Domande frequenti</p>
+      <h2 class="mt-5 text-4xl">Le domande che ci fanno davvero</h2>
+      <p class="mt-4 text-slate-400">Non trovate la vostra? <a class="text-brand-300 underline" href={localizedPath('it', 'contact')}>Scriveteci</a>.</p>
+    </div>
+    <div class="lg:col-span-2" data-reveal><Faq /></div>
   </section>
 
   <CtaBand />

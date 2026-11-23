@@ -6,18 +6,21 @@ interface Props {
 }
 const lang = getLangFromUrl(Astro.url);
 const {
-  title = 'Parliamone in 30 minuti, senza impegno',
-  text = 'Ci racconti come lavorate oggi: individuiamo insieme le prime due o tre attività da automatizzare e quanto tempo potete risparmiare.',
+  title = 'Scopriamo insieme cosa può fare l’IA per la vostra impresa',
+  text = 'In 30 minuti, senza impegno, analizziamo la vostra attività e vi indichiamo le due o tre automazioni che possono farvi risparmiare più tempo.',
 } = Astro.props;
 ---
 
-<section class="container-page mt-24">
-  <div class="rounded-3xl bg-brand-900 px-6 py-12 text-center sm:px-12">
-    <h2 class="text-3xl text-white">{title}</h2>
-    <p class="mx-auto mt-4 max-w-2xl text-brand-100">{text}</p>
-    <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href={localizedPath(lang, 'contact') + '#prenota'} class="btn bg-accent-400 text-slate-900 hover:bg-accent-500">Prenota una call gratuita</a>
-      <a href={localizedPath(lang, 'services')} class="btn border border-brand-300/40 text-white hover:bg-brand-800">Scopri i servizi</a>
+<section class="container-page mt-32" data-reveal>
+  <div class="relative overflow-hidden rounded-[2rem] border border-white/10 px-6 py-16 text-center sm:px-12">
+    <div class="absolute inset-0 -z-10 bg-gradient-to-br from-brand-600/40 via-ink-900 to-violet-700/40"></div>
+    <div class="animate-aurora absolute -top-1/2 left-1/4 -z-10 size-[30rem] rounded-full bg-brand-400/25 blur-[100px]"></div>
+    <div class="grid-bg absolute inset-0 -z-10 opacity-60"></div>
+    <h2 class="mx-auto max-w-3xl text-3xl sm:text-5xl">{title}</h2>
+    <p class="mx-auto mt-5 max-w-2xl text-lg text-slate-300">{text}</p>
+    <div class="mt-9 flex flex-wrap justify-center gap-3">
+      <a href={localizedPath(lang, 'contact')} class="btn btn-primary px-7 py-3 text-base">Prenota la consulenza gratuita</a>
+      <a href={localizedPath(lang, 'calculator')} class="btn btn-secondary px-7 py-3 text-base">Calcolate il vostro risparmio</a>
     </div>
   </div>
 </section>
