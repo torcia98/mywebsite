@@ -6,6 +6,9 @@ import Marquee from '../components/Marquee.astro';
 import DemoShowcase from '../components/DemoShowcase.astro';
 import Calculator from '../components/Calculator.astro';
 import Faq from '../components/Faq.astro';
+import Pricing from '../components/Pricing.astro';
+import Founder from '../components/human/Founder.astro';
+import Scribble from '../components/human/Scribble.astro';
 import { services } from '../data/services';
 import { localizedPath } from '../i18n/ui';
 
@@ -75,6 +78,10 @@ const spans = ['lg:col-span-4', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-4
           <svg viewBox="0 0 200 50" class="mt-3 h-12 w-full"><defs><linearGradient id="sp" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4df3e2" stop-opacity=".5"/><stop offset="1" stop-color="#4df3e2" stop-opacity="0"/></linearGradient></defs><path d="M0 45 L25 40 L50 42 L75 30 L100 32 L125 20 L150 22 L175 10 L200 5 L200 50 L0 50Z" fill="url(#sp)"/><path d="M0 45 L25 40 L50 42 L75 30 L100 32 L125 20 L150 22 L175 10 L200 5" fill="none" stroke="#4df3e2" stroke-width="2"/></svg>
         </div>
 
+        <div class="absolute right-0 bottom-6 hidden sm:block">
+          <Scribble text="mentre voi dormite" arrow="left" rotate={-6} />
+        </div>
+
         <div class="glass animate-float absolute bottom-0 left-8 w-72 rounded-3xl p-4 shadow-2xl [animation-delay:-4s]">
           <div class="flex items-center gap-3">
             <span class="flex size-10 items-center justify-center rounded-xl bg-violet-500/20 text-violet-200">📄</span>
@@ -123,6 +130,11 @@ const spans = ['lg:col-span-4', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-4
     </div>
   </section>
 
+  <!-- ============ FOUNDER (light) ============ -->
+  <section class="section-light mt-32 py-28">
+    <div class="container-page"><Founder /></div>
+  </section>
+
   <!-- ============ LIVE DEMOS ============ -->
   <section id="demo" class="relative mt-32 scroll-mt-24">
     <div class="absolute inset-x-0 top-20 -z-10 mx-auto h-96 max-w-4xl rounded-full bg-brand-500/10 blur-[120px]"></div>
@@ -134,10 +146,15 @@ const spans = ['lg:col-span-4', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-4
           Quattro esempi concreti di quello che costruiamo. Cliccate, scrivete, premete i pulsanti: funzionano davvero.
         </p>
       </div>
-      <div class="mt-12" data-reveal>
+      <div class="relative mt-12" data-reveal>
+        <div class="absolute -top-16 right-2 hidden md:block">
+          <Scribble text="provate a scrivere qui!" arrow="down-left" rotate={-4} />
+        </div>
         <DemoShowcase />
       </div>
-      <p class="mt-6 text-xs text-slate-500">Le demo usano dati di esempio e girano interamente nel vostro browser: nessun dato viene inviato.</p>
+      <p class="mt-6 text-xs text-slate-500">
+        Le demo girano interamente nel vostro browser: nessun dato viene inviato. La chat è ispirata al nostro progetto pilota con Le Isole d’Italia; escursioni e prezzi sono di esempio.
+      </p>
     </div>
   </section>
 
@@ -150,7 +167,26 @@ const spans = ['lg:col-span-4', 'lg:col-span-2', 'lg:col-span-2', 'lg:col-span-4
         Scegliete un servizio, il settore e muovete i cursori: vedete subito una stima del tempo liberato e del beneficio economico in un anno.
       </p>
     </div>
-    <div class="mt-12" data-reveal><Calculator /></div>
+    <div class="relative mt-12" data-reveal>
+      <div class="absolute -top-14 left-1/3 hidden lg:block">
+        <Scribble text="muovete i cursori" arrow="down" tone="brand" rotate={-3} />
+      </div>
+      <Calculator />
+    </div>
+  </section>
+
+  <!-- ============ PRICING (light) ============ -->
+  <section id="prezzi" class="section-light mt-32 scroll-mt-20 py-28">
+    <div class="container-page">
+      <div class="mx-auto max-w-3xl text-center" data-reveal>
+        <p class="eyebrow">Prezzi</p>
+        <h2 class="mt-5 text-4xl sm:text-5xl">Tre piani, <span class="text-gradient-warm">prezzi chiari.</span></h2>
+        <p class="mt-5 text-lg text-slate-600">
+          Ogni piano mette insieme i servizi che servono davvero al vostro settore. Si parte con un’attivazione una tantum e un canone mensile, senza costi nascosti.
+        </p>
+      </div>
+      <div class="mt-20"><Pricing /></div>
+    </div>
   </section>
 
   <!-- ============ HOW WE WORK ============ -->

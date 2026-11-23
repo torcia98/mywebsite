@@ -1,0 +1,73 @@
+---
+import { plans } from '../data/pricing';
+import Scribble from './human/Scribble.astro';
+import { localizedPath } from '../i18n/ui';
+const eur = (n: number) => n.toLocaleString('it-IT', { useGrouping: 'always' } as Intl.NumberFormatOptions);
+---
+
+<div class="relative">
+  <div class="absolute -top-14 right-4 hidden lg:block">
+    <Scribble text="niente sorprese, promesso" arrow="down-left" tone="dark" rotate={4} />
+  </div>
+  <div class="grid gap-6 lg:grid-cols-3 lg:items-stretch">
+    {
+      plans.map((p, i) => (
+        <article
+          class:list={[
+            'relative flex flex-col rounded-[1.75rem] p-7 transition',
+            p.featured
+              ? 'bg-ink-900 text-slate-300 shadow-2xl shadow-terra-500/20 ring-2 ring-terra-400 lg:-my-4 lg:py-11'
+              : 'border border-cream-200 bg-white text-slate-600 shadow-sm hover:shadow-lg',
+          ]}
+          data-reveal
+          style={`--reveal-delay:${i * 90}ms`}
+        >
+          {p.badge && (
+            <span class="absolute -top-3.5 left-7 rounded-full bg-terra-400 px-3 py-1 text-xs font-semibold text-white shadow">{p.badge}</span>
+          )}
+          <h3 class:list={['font-display text-2xl', p.featured ? '!text-white' : '!text-ink-900']}>{p.name}</h3>
+          <p class:list={['mt-2 min-h-[3rem] text-sm', p.featured ? 'text-slate-400' : 'text-slate-500']}>{p.forWho}</p>
+          <p class="mt-6 flex items-baseline gap-1.5">
+            <span class:list={['text-sm', p.featured ? 'text-slate-400' : 'text-slate-500']}>da</span>
+            <span class:list={['font-display text-5xl font-semibold', p.featured ? 'text-white' : 'text-ink-900']}>{eur(p.priceFrom)} €</span>
+            <span class:list={['text-sm', p.featured ? 'text-slate-400' : 'text-slate-500']}>/mese</span>
+          </p>
+          <p class:list={['mt-1 text-xs', p.featured ? 'text-slate-400' : 'text-slate-500']}>
+            fino a {eur(p.priceTo)} € in base ai volumi · attivazione una tantum {eur(p.setup)} €
+          </p>
+          <ul class="mt-7 space-y-4">
+            {p.packages.map((pk) => (
+              <li class="flex gap-3">
+                <span class:list={['mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full text-xs', p.featured ? 'bg-terra-400 text-white' : 'bg-terra-400/15 text-terra-600']}>✓</span>
+                <span class="text-sm">
+                  <span class:list={['block font-semibold', p.featured ? 'text-white' : 'text-ink-900']}>{pk.name}</span>
+                  {pk.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href={`${localizedPath('it', 'contact')}?piano=${p.id}`}
+            class:list={['btn mt-auto w-full py-3', p.featured ? 'bg-terra-400 text-white hover:bg-terra-500' : 'border border-ink-900/15 text-ink-900 hover:border-terra-400 hover:text-terra-600']}
+            style="margin-top: 2rem"
+          >
+            Parliamone
+          </a>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="mt-12 grid gap-4 text-sm sm:grid-cols-3">
+    <div class="rounded-2xl border border-dashed border-terra-400/60 bg-terra-400/5 p-5 sm:col-span-2">
+      <p class="font-semibold text-ink-900">🤝 Offerta per i primi clienti pilota</p>
+      <p class="mt-1 text-slate-600">
+        Primo mese a metà prezzo, in cambio di un caso studio con i vostri numeri reali: tempi di risposta, recensioni, incassi recuperati.
+      </p>
+    </div>
+    <div class="rounded-2xl border border-cream-200 bg-white p-5 text-slate-600">
+      <p class="font-semibold text-ink-900">Bene a sapersi</p>
+      <p class="mt-1">Prezzi IVA esclusa, piani annuali. Vi serve un solo servizio? Si può: chiedeteci il prezzo del singolo pacchetto.</p>
+    </div>
+  </div>
+</div>

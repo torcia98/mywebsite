@@ -1,10 +1,12 @@
 @import 'tailwindcss';
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/caveat';
 
 @theme {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, sans-serif;
+  --font-hand: 'Caveat Variable', 'Segoe Print', cursive;
 
   /* Placeholder brand palette: electric teal + violet, warm amber accent. */
   --color-brand-50: #ecfffc;
@@ -24,6 +26,15 @@
   --color-accent-400: #ffb454;
   --color-accent-500: #f79a24;
   --color-accent-600: #db7a0b;
+
+  /* Warm, human tones used in the light sections */
+  --color-cream-50: #fdfaf4;
+  --color-cream-100: #f7efe2;
+  --color-cream-200: #eedfc8;
+  --color-terra-300: #f2a27f;
+  --color-terra-400: #e8825a;
+  --color-terra-500: #d2663c;
+  --color-terra-600: #b04f2a;
 
   --color-ink-950: #05070d;
   --color-ink-900: #0a0e17;
@@ -134,6 +145,22 @@
   }
 }
 
+/* Light, warm section (cream background, dark text) */
+.section-light {
+  @apply relative overflow-x-clip bg-cream-50 text-slate-700;
+  color-scheme: light;
+}
+.section-light h1,
+.section-light h2,
+.section-light h3 {
+  @apply text-ink-900;
+}
+.section-light .eyebrow {
+  @apply border-terra-400/40 bg-terra-400/10 text-terra-600;
+}
+.text-gradient-warm {
+  @apply bg-gradient-to-r from-terra-500 via-accent-500 to-terra-400 bg-clip-text text-transparent;
+}
 /* Scroll reveal: elements with [data-reveal] fade up when they enter the viewport. */
 [data-reveal] {
   opacity: 0;

@@ -107,6 +107,13 @@ const label = 'block text-sm font-medium text-slate-200';
     </form>
 
     <aside class="space-y-5">
+      <div class="flex items-center gap-4 rounded-3xl border border-terra-400/30 bg-cream-50 p-5 text-slate-700">
+        <img src="/images/federico.webp" alt="Federico" width="72" height="72" class="size-16 shrink-0 rounded-full object-cover" />
+        <div>
+          <p class="font-semibold text-ink-900">Vi risponde Federico</p>
+          <p class="text-sm">Leggo io ogni richiesta e vi scrivo personalmente, di solito entro poche ore.</p>
+        </div>
+      </div>
       {
         site.bookingUrl && (
           <div class="rounded-3xl border border-brand-300/30 bg-gradient-to-br from-brand-500/20 to-violet-600/20 p-6">
@@ -143,6 +150,12 @@ const label = 'block text-sm font-medium text-slate-200';
   const svc = new URLSearchParams(location.search).get('servizio');
   const sel = form?.querySelector<HTMLSelectElement>('#interesse');
   if (svc && sel && [...sel.options].some((o) => o.value === svc)) sel.value = svc;
+
+  // Coming from the pricing section (?piano=...): prefill the message
+  const plans: Record<string, string> = { accoglienza: 'Accoglienza', ufficio: 'Ufficio in Ordine', crescita: 'Crescita' };
+  const plan = new URLSearchParams(location.search).get('piano');
+  const msg = form?.querySelector<HTMLTextAreaElement>('#messaggio');
+  if (plan && plans[plan] && msg && !msg.value) msg.value = `Vorrei saperne di più sul piano ${plans[plan]}. `;
 
   // Demo mode: nothing is sent until formEndpoint is configured.
   if (form?.dataset.demo) {

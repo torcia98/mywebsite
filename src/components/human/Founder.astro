@@ -1,0 +1,55 @@
+---
+import Scribble from './Scribble.astro';
+import { localizedPath } from '../../i18n/ui';
+import { site } from '../../config/site';
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+
+<div class="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+  <!-- Photo -->
+  <div class="relative mx-auto w-full max-w-sm" data-reveal>
+    <div class="absolute -inset-4 rotate-3 rounded-[2.5rem] bg-terra-400/20"></div>
+    <div class="absolute -inset-4 -rotate-2 rounded-[2.5rem] border-2 border-dashed border-terra-400/40"></div>
+    <div class="relative overflow-hidden rounded-[2rem] bg-cream-200 shadow-xl">
+      <img src="/images/federico.webp" alt="Federico, fondatore di Automa" width="480" height="480" loading="lazy" class="aspect-square w-full object-cover" />
+    </div>
+    <div class="absolute -right-4 -bottom-5 rotate-2 rounded-2xl bg-white px-4 py-3 shadow-lg">
+      <p class="text-sm font-semibold text-ink-900">Federico</p>
+      <p class="text-xs text-slate-500">Fondatore di {site.name}</p>
+    </div>
+    <div class="absolute -top-10 -left-4 hidden sm:block">
+      <Scribble text="ciao, sono io!" arrow="down-right" tone="dark" rotate={-8} />
+    </div>
+  </div>
+
+  <!-- Letter -->
+  <div data-reveal style="--reveal-delay:120ms">
+    <p class="eyebrow">Chi c’è dietro {site.name}</p>
+    <h2 class="mt-5 text-4xl sm:text-5xl">Dietro ogni automazione <span class="text-gradient-warm">c’è una persona.</span></h2>
+    <div class="mt-6 space-y-4 text-lg leading-relaxed text-slate-600">
+      <p>
+        Ciao, sono Federico. Ho fondato {site.name} perché vedo ogni giorno quanto tempo le piccole imprese italiane perdono
+        in lavoro che nessuno ama fare: rispondere sempre alle stesse domande, ricopiare ordini, rincorrere fatture.
+      </p>
+      {
+        !compact && (
+          <p>
+            Non vi vendo un software e non vi lascio con un manuale. Mi siedo con voi, capisco come lavorate e costruisco la
+            soluzione più semplice che funziona. Se l’intelligenza artificiale non è la risposta giusta, ve lo dico.
+          </p>
+        )
+      }
+      <p>
+        Il primo progetto lo stiamo facendo con <strong class="font-semibold text-ink-900">Le Isole d’Italia</strong>, un tour
+        operator: l’assistente risponde ai viaggiatori, anche stranieri, mentre lo staff si occupa di chi è già in vacanza.
+      </p>
+    </div>
+    <div class="mt-8 flex flex-wrap items-center gap-6">
+      <span class="font-hand text-5xl text-terra-500" aria-hidden="true">Federico</span>
+      <a href={localizedPath('it', 'contact')} class="btn bg-ink-900 px-6 py-3 text-base text-white hover:bg-ink-700">Prenotate un caffè virtuale con me</a>
+    </div>
+  </div>
+</div>
