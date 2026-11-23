@@ -2,13 +2,13 @@
 const tools = ['WhatsApp Business', 'Gmail', 'Outlook', 'Excel', 'Google Sheets', 'Fatture in Cloud', 'TeamSystem', 'Zucchetti', 'HubSpot', 'Shopify', 'WooCommerce', 'Aruba PEC', 'Google Calendar', 'Slack'];
 ---
 
-<section class="border-y border-white/5 bg-white/[0.015] py-8">
+<section class="border-y border-ink-900/5 bg-cream-100 py-8">
   <p class="text-center text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">Si integra con gli strumenti che usate già</p>
   <div class="relative mt-6 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
     <div class="animate-marquee flex w-max gap-12 pr-12">
       {
         [...tools, ...tools].map((t, i) => (
-          <span class="font-display text-xl whitespace-nowrap text-slate-500 transition-colors hover:text-white" aria-hidden={i >= tools.length ? 'true' : undefined}>
+          <span class="font-display text-xl whitespace-nowrap text-slate-500 transition-colors hover:text-ink-900" aria-hidden={i >= tools.length ? 'true' : undefined}>
             {t}
           </span>
         ))

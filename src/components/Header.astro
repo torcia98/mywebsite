@@ -35,8 +35,8 @@ const links = [
           <a
             href={l.href}
             class:list={[
-              'text-sm font-medium transition-colors hover:text-white',
-              current === l.href ? 'text-white' : 'text-slate-400',
+              'text-sm font-medium transition-colors hover:text-ink-900',
+              current === l.href ? 'text-ink-900' : 'text-slate-600',
             ]}
             aria-current={current === l.href ? 'page' : undefined}
           >
@@ -48,7 +48,7 @@ const links = [
         showLanguageSwitcher && (
           <div class="flex gap-2 text-sm">
             {(Object.keys(languages) as Lang[]).map((l) => (
-              <a href={routes[l].home} class:list={[l === lang ? 'font-semibold text-white' : 'text-slate-500']}>
+              <a href={routes[l].home} class:list={[l === lang ? 'font-semibold text-ink-900' : 'text-slate-500']}>
                 {l.toUpperCase()}
               </a>
             ))}
@@ -60,7 +60,7 @@ const links = [
       <a href={localizedPath(lang, 'contact')} class="btn btn-primary hidden sm:inline-flex">{t('nav.cta')}</a>
       <details class="group relative lg:hidden">
         <summary
-          class="flex cursor-pointer list-none items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-white [&::-webkit-details-marker]:hidden"
+          class="flex cursor-pointer list-none items-center gap-2 rounded-full border border-ink-900/15 px-4 py-2 text-sm font-medium text-ink-900 [&::-webkit-details-marker]:hidden"
         >
           {t('nav.menu')}
           <svg class="size-4 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -68,17 +68,17 @@ const links = [
           </svg>
         </summary>
         <nav
-          class="absolute right-0 mt-3 flex w-64 flex-col gap-1 rounded-3xl border border-white/10 bg-ink-900/95 p-3 shadow-2xl backdrop-blur-xl"
+          class="absolute right-0 mt-3 flex w-64 flex-col gap-1 rounded-3xl border border-ink-900/10 bg-white/95 p-3 shadow-2xl backdrop-blur-xl"
           aria-label="Mobile"
         >
           {
             links.map((l) => (
-              <a href={l.href} class="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-200 hover:bg-white/5">
+              <a href={l.href} class="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-white">
                 {l.label}
               </a>
             ))
           }
-          <a href={localizedPath(lang, 'contact')} class="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-200 hover:bg-white/5">{t('nav.contact')}</a>
+          <a href={localizedPath(lang, 'contact')} class="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-white">{t('nav.contact')}</a>
           <a href={localizedPath(lang, 'contact')} class="btn btn-primary mt-2">{t('nav.cta')}</a>
         </nav>
       </details>

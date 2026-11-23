@@ -11,7 +11,7 @@ interface Props {
   class?: string;
 }
 const { text, arrow = 'down-right', tone = 'warm', rotate = -3, class: cls = '' } = Astro.props;
-const color = tone === 'warm' ? 'text-accent-300' : tone === 'brand' ? 'text-brand-300' : 'text-terra-500';
+const color = tone === 'warm' ? 'text-terra-500' : tone === 'brand' ? 'text-accent-600' : 'text-ink-900/70';
 const paths: Record<string, string> = {
   down: 'M20 4 C 26 22, 14 34, 22 54 M14 44 L22 56 L30 45',
   left: 'M58 18 C 40 8, 22 26, 6 20 M16 12 L5 20 L16 28',

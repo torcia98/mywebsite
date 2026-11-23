@@ -34,7 +34,7 @@ const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', curren
     <div class="mb-4 flex flex-wrap gap-2">
       {
         Object.entries(docs).map(([k, d], i) => (
-          <button type="button" data-doc={k} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-white/10 px-4 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">
+          <button type="button" data-doc={k} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-ink-900/10 px-4 py-1.5 text-sm text-slate-700 aria-pressed:border-terra-400/60 aria-pressed:bg-terra-400/10 aria-pressed:text-ink-900">
             {d.label}
           </button>
         ))
@@ -42,7 +42,7 @@ const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', curren
     </div>
     <!-- Paper invoice -->
     <div class="relative overflow-hidden rounded-2xl bg-[#f7f5ef] p-6 font-mono text-[12px] leading-relaxed text-slate-800 shadow-2xl">
-      <div data-scan class="pointer-events-none absolute inset-x-0 top-0 hidden h-16 bg-gradient-to-b from-transparent via-brand-400/40 to-transparent"></div>
+      <div data-scan class="pointer-events-none absolute inset-x-0 top-0 hidden h-16 bg-gradient-to-b from-transparent via-terra-400/40 to-transparent"></div>
       <div class="flex justify-between gap-4">
         <div>
           <p data-f="supplier" class="text-sm font-bold">{docs.ok.supplier}</p>
@@ -73,9 +73,9 @@ const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', curren
   </div>
 
   <div class="glass min-w-0 rounded-3xl p-6">
-    <p class="text-xs font-semibold tracking-wider text-brand-300 uppercase">Dati estratti</p>
-    <p class="mt-1 text-sm text-slate-400">Pronti per il gestionale o per il commercialista.</p>
-    <dl data-out class="mt-5 divide-y divide-white/5 text-sm">
+    <p class="text-xs font-semibold tracking-wider text-terra-600 uppercase">Dati estratti</p>
+    <p class="mt-1 text-sm text-slate-600">Pronti per il gestionale o per il commercialista.</p>
+    <dl data-out class="mt-5 divide-y divide-ink-900/5 text-sm">
       {
         [
           ['supplier', 'Fornitore'],
@@ -88,8 +88,8 @@ const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', curren
           ['iban', 'IBAN'],
         ].map(([k, l]) => (
           <div class="flex items-center justify-between gap-4 py-2.5">
-            <dt class="text-slate-400">{l}</dt>
-            <dd data-o={k} class="text-right font-mono break-all text-slate-600">—</dd>
+            <dt class="text-slate-600">{l}</dt>
+            <dd data-o={k} class="text-right font-mono break-all text-slate-400">—</dd>
           </div>
         ))
       }
@@ -124,9 +124,9 @@ const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', curren
       f('net2').textContent = eur(d.net);
       root.querySelectorAll<HTMLElement>('[data-o]').forEach((el) => {
         el.textContent = '—';
-        el.className = 'text-right font-mono break-all text-slate-600';
+        el.className = 'text-right font-mono break-all text-slate-400';
       });
-      root.querySelectorAll<HTMLElement>('[data-f]').forEach((el) => el.classList.remove('bg-brand-300/50', 'bg-red-300/60'));
+      root.querySelectorAll<HTMLElement>('[data-f]').forEach((el) => el.classList.remove('bg-accent-300/60', 'bg-red-300/60'));
       check.classList.add('hidden');
     };
 
@@ -149,10 +149,10 @@ const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', curren
       await sleep(1100);
       scan.classList.add('hidden');
       for (const k of ['supplier', 'number', 'date', 'net', 'vat', 'total', 'due', 'iban'] as (keyof Doc)[]) {
-        f(k).classList.add('bg-brand-300/50');
+        f(k).classList.add('bg-accent-300/60');
         const out = o(k);
         out.textContent = fmt(d, k);
-        out.className = 'text-right font-mono break-all text-white';
+        out.className = 'text-right font-mono break-all text-ink-900';
         await sleep(180);
       }
       // Checks: VAT coherent with net, total coherent, due date after invoice date.
@@ -160,22 +160,22 @@ const eur = (n: number) => n.toLocaleString('it-IT', { style: 'currency', curren
       const expectedVat = Math.round(d.net * d.vatRate) / 100;
       if (Math.abs(expectedVat - d.vat) > 0.5) {
         issues.push(`IVA non coerente: il ${d.vatRate}% di ${eur(d.net)} è ${eur(expectedVat)}, in fattura ${eur(d.vat)}.`);
-        f('vat').classList.replace('bg-brand-300/50', 'bg-red-300/60');
-        o('vat').className = 'text-right font-mono break-all text-red-300';
+        f('vat').classList.replace('bg-accent-300/60', 'bg-red-300/60');
+        o('vat').className = 'text-right font-mono break-all text-red-600';
       }
       if (d.due === d.date) {
         issues.push('Scadenza uguale alla data fattura: diversa dai 30 giorni concordati con il fornitore.');
-        f('due').classList.replace('bg-brand-300/50', 'bg-red-300/60');
-        o('due').className = 'text-right font-mono break-all text-red-300';
+        f('due').classList.replace('bg-accent-300/60', 'bg-red-300/60');
+        o('due').className = 'text-right font-mono break-all text-red-600';
       }
       await sleep(250);
       check.classList.remove('hidden');
       if (issues.length) {
-        check.className = 'mt-5 rounded-2xl border border-red-400/30 bg-red-500/10 px-4 py-3 text-sm text-red-100';
-        check.innerHTML = `<p class="font-semibold">⚠️ ${issues.length} anomalie da verificare</p><ul class="mt-2 list-disc space-y-1 pl-5">${issues.map((i) => `<li>${i}</li>`).join('')}</ul><p class="mt-2 text-xs text-red-200/80">Il documento resta in attesa: solo questo arriva sulla vostra scrivania.</p>`;
+        check.className = 'mt-5 rounded-2xl border border-red-400/30 bg-red-50 px-4 py-3 text-sm text-red-800';
+        check.innerHTML = `<p class="font-semibold">⚠️ ${issues.length} anomalie da verificare</p><ul class="mt-2 list-disc space-y-1 pl-5">${issues.map((i) => `<li>${i}</li>`).join('')}</ul><p class="mt-2 text-xs text-red-700">Il documento resta in attesa: solo questo arriva sulla vostra scrivania.</p>`;
       } else {
-        check.className = 'mt-5 rounded-2xl border border-brand-400/30 bg-brand-400/10 px-4 py-3 text-sm text-brand-100';
-        check.innerHTML = '<p class="font-semibold">✓ Tutti i controlli superati</p><p class="mt-1 text-xs text-brand-200/80">Importi coerenti, fornitore riconosciuto, scadenza registrata nello scadenzario. Pronta per la registrazione.</p>';
+        check.className = 'mt-5 rounded-2xl border border-terra-400/30 bg-terra-400/10 px-4 py-3 text-sm text-terra-600';
+        check.innerHTML = '<p class="font-semibold">✓ Tutti i controlli superati</p><p class="mt-1 text-xs text-terra-600">Importi coerenti, fornitore riconosciuto, scadenza registrata nello scadenzario. Pronta per la registrazione.</p>';
       }
       busy = false;
     });

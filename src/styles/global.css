@@ -8,20 +8,7 @@
   --font-display: 'Space Grotesk Variable', 'Inter Variable', ui-sans-serif, sans-serif;
   --font-hand: 'Caveat Variable', 'Segoe Print', cursive;
 
-  /* Placeholder brand palette: electric teal + violet, warm amber accent. */
-  --color-brand-50: #ecfffc;
-  --color-brand-100: #c6fff6;
-  --color-brand-200: #8ffcee;
-  --color-brand-300: #4df3e2;
-  --color-brand-400: #19dccd;
-  --color-brand-500: #05bfb3;
-  --color-brand-600: #029992;
-  --color-brand-700: #077a76;
-  --color-brand-800: #0c605e;
-  --color-brand-900: #0f4f4e;
-  --color-brand-950: #022e30;
-
-  --color-violet-glow: #8b5cf6;
+  /* Placeholder brand palette: warm cream + terracotta, amber accent. */
   --color-accent-300: #ffd08a;
   --color-accent-400: #ffb454;
   --color-accent-500: #f79a24;
@@ -67,19 +54,19 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
+    color-scheme: light;
   }
   body {
-    @apply bg-ink-950 font-sans text-slate-300 antialiased;
+    @apply bg-cream-50 font-sans text-slate-700 antialiased;
   }
   h1, h2, h3 {
-    @apply font-display font-semibold tracking-tight text-white;
+    @apply font-display font-semibold tracking-tight text-ink-900;
   }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-brand-400;
+    @apply outline-2 outline-offset-2 outline-terra-500;
   }
   ::selection {
-    @apply bg-brand-400/30 text-white;
+    @apply bg-terra-300/40 text-ink-900;
   }
 }
 
@@ -91,24 +78,24 @@
     @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition-all duration-200;
   }
   .btn-primary {
-    @apply bg-gradient-to-r from-brand-400 to-brand-300 text-ink-950 shadow-[0_0_30px_-6px] shadow-brand-400/60 hover:shadow-brand-300/80 hover:brightness-110;
+    @apply bg-terra-500 text-white shadow-[0_10px_30px_-10px] shadow-terra-500/60 hover:-translate-y-px hover:bg-terra-600;
   }
   .btn-secondary {
-    @apply border border-white/15 bg-white/5 text-white backdrop-blur hover:border-brand-300/60 hover:bg-white/10;
+    @apply border border-ink-900/15 bg-white text-ink-900 hover:border-terra-400 hover:text-terra-600;
   }
   .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full border border-brand-300/30 bg-brand-400/10 px-3 py-1 text-xs font-semibold tracking-wider text-brand-200 uppercase;
+    @apply inline-flex items-center gap-2 rounded-full border border-terra-400/40 bg-terra-400/10 px-3 py-1 text-xs font-semibold tracking-wider text-terra-600 uppercase;
   }
   .text-gradient {
-    @apply bg-gradient-to-r from-brand-300 via-cyan-200 to-violet-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-terra-500 via-accent-500 to-terra-400 bg-clip-text text-transparent;
   }
   .glass {
-    @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+    @apply border border-ink-900/10 bg-white/85 shadow-[0_1px_2px_rgba(17,23,38,0.04),0_8px_24px_-12px_rgba(17,23,38,0.12)] backdrop-blur-xl;
   }
   .grid-bg {
     background-image:
-      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+      linear-gradient(to right, rgb(17 23 38 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(17 23 38 / 0.05) 1px, transparent 1px);
     background-size: 56px 56px;
     mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
   }
@@ -119,36 +106,35 @@
   .spotlight::before {
     content: '';
     @apply pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300;
-    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(77 243 226 / 0.14), transparent 45%);
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgb(232 130 90 / 0.12), transparent 45%);
   }
   .spotlight:hover::before {
     @apply opacity-100;
   }
   .input {
-    @apply mt-1 block w-full rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-white placeholder:text-slate-500 focus:border-brand-400 focus:ring-2 focus:ring-brand-400/30 focus:outline-none;
+    @apply mt-1 block w-full rounded-xl border border-ink-900/15 bg-white px-4 py-2.5 text-ink-900 placeholder:text-slate-400 focus:border-terra-500 focus:ring-2 focus:ring-terra-400/30 focus:outline-none;
   }
   .prose-legal h2 {
     @apply mt-10 mb-3 text-xl;
   }
   .prose-legal p,
   .prose-legal ul {
-    @apply mb-4 leading-relaxed text-slate-300;
+    @apply mb-4 leading-relaxed text-slate-700;
   }
   .prose-legal ul {
     @apply list-disc pl-6;
   }
   .prose-legal a {
-    @apply text-brand-300 underline;
+    @apply text-terra-600 underline;
   }
   .prose-legal strong {
-    @apply text-white;
+    @apply text-ink-900;
   }
 }
 
 /* Light, warm section (cream background, dark text) */
 .section-light {
-  @apply relative overflow-x-clip bg-cream-50 text-slate-700;
-  color-scheme: light;
+  @apply relative overflow-x-clip bg-cream-100 text-slate-700;
 }
 .section-light h1,
 .section-light h2,
@@ -179,14 +165,14 @@
 
 /* Range slider styling for the calculator */
 input[type='range'] {
-  @apply h-2 w-full cursor-pointer appearance-none rounded-full bg-white/10;
-  accent-color: var(--color-brand-400);
+  @apply h-2 w-full cursor-pointer appearance-none rounded-full bg-cream-200;
+  accent-color: var(--color-terra-500);
 }
 input[type='range']::-webkit-slider-thumb {
-  @apply size-5 appearance-none rounded-full border-2 border-ink-950 bg-brand-300 shadow-[0_0_0_4px] shadow-brand-400/25;
+  @apply size-5 appearance-none rounded-full border-2 border-white bg-terra-500 shadow-[0_0_0_4px] shadow-terra-400/25;
 }
 input[type='range']::-moz-range-thumb {
-  @apply size-5 rounded-full border-2 border-ink-950 bg-brand-300;
+  @apply size-5 rounded-full border-2 border-white bg-terra-500;
 }
 
 @media (prefers-reduced-motion: reduce) {
