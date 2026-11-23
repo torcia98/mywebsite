@@ -10,17 +10,17 @@ const products = [
 <div data-demo-content data-products={JSON.stringify(products)} class="grid gap-6 lg:grid-cols-5">
   <div class="glass min-w-0 space-y-5 rounded-3xl p-6 lg:col-span-2">
     <div>
-      <p class="text-xs font-semibold tracking-wider text-accent-400 uppercase">Prima</p>
-      <div class="mt-2 rounded-xl border border-dashed border-white/15 p-3 font-mono text-xs text-slate-500">
+      <p class="text-xs font-semibold tracking-wider text-terra-600 uppercase">Prima</p>
+      <div class="mt-2 rounded-xl border border-dashed border-ink-900/15 p-3 font-mono text-xs text-slate-500">
         <span data-raw></span>
       </div>
     </div>
     <fieldset>
-      <legend class="text-sm font-medium text-white">Prodotto</legend>
+      <legend class="text-sm font-medium text-ink-900">Prodotto</legend>
       <div class="mt-2 flex flex-wrap gap-2">
         {
           products.map((p, i) => (
-            <button type="button" data-product={p.id} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">
+            <button type="button" data-product={p.id} aria-pressed={i === 0 ? 'true' : 'false'} class="rounded-full border border-ink-900/10 px-3 py-1.5 text-sm text-slate-700 aria-pressed:border-terra-400/60 aria-pressed:bg-terra-400/10 aria-pressed:text-ink-900">
               {p.name}
             </button>
           ))
@@ -28,17 +28,17 @@ const products = [
       </div>
     </fieldset>
     <fieldset>
-      <legend class="text-sm font-medium text-white">Tono di voce</legend>
+      <legend class="text-sm font-medium text-ink-900">Tono di voce</legend>
       <div class="mt-2 flex flex-wrap gap-2">
-        <button type="button" data-tone="elegante" aria-pressed="true" class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">Elegante</button>
-        <button type="button" data-tone="amichevole" aria-pressed="false" class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">Amichevole</button>
+        <button type="button" data-tone="elegante" aria-pressed="true" class="rounded-full border border-ink-900/10 px-3 py-1.5 text-sm text-slate-700 aria-pressed:border-terra-400/60 aria-pressed:bg-terra-400/10 aria-pressed:text-ink-900">Elegante</button>
+        <button type="button" data-tone="amichevole" aria-pressed="false" class="rounded-full border border-ink-900/10 px-3 py-1.5 text-sm text-slate-700 aria-pressed:border-terra-400/60 aria-pressed:bg-terra-400/10 aria-pressed:text-ink-900">Amichevole</button>
       </div>
     </fieldset>
     <fieldset>
-      <legend class="text-sm font-medium text-white">Lingua</legend>
+      <legend class="text-sm font-medium text-ink-900">Lingua</legend>
       <div class="mt-2 flex flex-wrap gap-2">
-        <button type="button" data-lang="it" aria-pressed="true" class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">🇮🇹 Italiano</button>
-        <button type="button" data-lang="en" aria-pressed="false" class="rounded-full border border-white/10 px-3 py-1.5 text-sm text-slate-300 aria-pressed:border-brand-300/60 aria-pressed:bg-brand-400/10 aria-pressed:text-white">🇬🇧 English</button>
+        <button type="button" data-lang="it" aria-pressed="true" class="rounded-full border border-ink-900/10 px-3 py-1.5 text-sm text-slate-700 aria-pressed:border-terra-400/60 aria-pressed:bg-terra-400/10 aria-pressed:text-ink-900">🇮🇹 Italiano</button>
+        <button type="button" data-lang="en" aria-pressed="false" class="rounded-full border border-ink-900/10 px-3 py-1.5 text-sm text-slate-700 aria-pressed:border-terra-400/60 aria-pressed:bg-terra-400/10 aria-pressed:text-ink-900">🇬🇧 English</button>
       </div>
     </fieldset>
     <button type="button" data-generate class="btn btn-primary w-full">
@@ -47,13 +47,13 @@ const products = [
     </button>
   </div>
 
-  <div class="relative overflow-hidden rounded-3xl border border-white/10 bg-white p-6 text-slate-800 min-w-0 lg:col-span-3">
-    <p class="text-xs font-semibold tracking-wider text-brand-700 uppercase">Dopo · anteprima sul vostro e-commerce</p>
+  <div class="relative overflow-hidden rounded-3xl border border-ink-900/10 bg-white p-6 text-slate-800 min-w-0 lg:col-span-3">
+    <p class="text-xs font-semibold tracking-wider text-terra-600 uppercase">Dopo · anteprima sul vostro e-commerce</p>
     <div class="mt-4 flex gap-5">
       <div class="hidden size-28 shrink-0 rounded-2xl bg-gradient-to-br from-amber-100 via-stone-200 to-stone-300 sm:block" aria-hidden="true"></div>
       <div class="min-w-0 flex-1">
         <h3 data-title class="font-display text-2xl text-slate-900"></h3>
-        <p data-price class="mt-1 text-lg font-semibold text-brand-700"></p>
+        <p data-price class="mt-1 text-lg font-semibold text-terra-600"></p>
       </div>
     </div>
     <p data-output class="mt-5 min-h-[9rem] leading-relaxed text-slate-700" aria-live="polite"></p>
@@ -106,7 +106,7 @@ const products = [
       raw.textContent = `${p.name.toUpperCase()} - ${p.material} - ${p.dims} - ${p.price} (descrizione mancante)`;
       title.textContent = state.lang === 'en' ? p.nameEn : p.name;
       price.textContent = p.price;
-      out.innerHTML = '<span class="text-slate-400">Nessuna descrizione. Premete “Genera la scheda prodotto”.</span>';
+      out.innerHTML = '<span class="text-slate-600">Nessuna descrizione. Premete “Genera la scheda prodotto”.</span>';
       bullets.innerHTML = '';
       meta.classList.add('hidden');
       meta.classList.remove('flex');
@@ -134,7 +134,7 @@ const products = [
       const { text, bullets: bl } = templates[`${state.lang}-${state.tone}`](p);
       out.textContent = '';
       const caret = document.createElement('span');
-      caret.className = 'ml-0.5 inline-block h-4 w-0.5 animate-blink bg-brand-600 align-middle';
+      caret.className = 'ml-0.5 inline-block h-4 w-0.5 animate-blink bg-terra-500 align-middle';
       for (let i = 0; i < text.length; i++) {
         if (id !== run) return;
         out.textContent = text.slice(0, i + 1);
@@ -146,7 +146,7 @@ const products = [
         if (id !== run) return;
         const li = document.createElement('li');
         li.className = 'flex items-center gap-2';
-        li.innerHTML = '<span class="text-brand-600">●</span>';
+        li.innerHTML = '<span class="text-terra-600">●</span>';
         li.append(b);
         bullets.appendChild(li);
         await sleep(120);

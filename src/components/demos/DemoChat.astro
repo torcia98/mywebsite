@@ -1,39 +1,40 @@
 ---
 /**
  * Scripted chatbot demo (no AI call, no data leaves the browser).
- * Scenario: agriturismo in Toscana, from the services copy.
+ * Scenario: tour operator inspired by the pilot project with Le Isole d'Italia.
+ * Tours, prices and availability are illustrative examples, not the operator's real offer.
  */
 const suggestions = [
-  'Avete camere libere il primo weekend di maggio?',
-  'Quanto costa la cena per due?',
-  'Posso portare il cane?',
-  'Vorrei parlare con il titolare',
-  'Do you have a room for two next weekend?',
+  'Ci sono posti per l’escursione alle Eolie sabato?',
+  'Quanto costa il tour per 2 adulti e un bambino?',
+  'Il transfer dall’aeroporto è incluso?',
+  'Do you have English-speaking guides?',
+  'Vorrei parlare con un consulente',
 ];
 ---
 
 <div data-demo-chat class="grid gap-6 lg:grid-cols-5">
   <!-- Phone -->
   <div class="min-w-0 lg:col-span-3">
-    <div class="mx-auto max-w-md overflow-hidden rounded-[2rem] border border-white/10 bg-ink-900 shadow-2xl shadow-brand-500/10">
-      <div class="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-5 py-4">
-        <span class="relative flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-brand-400 to-violet-500 text-sm font-bold text-ink-950">IP</span>
+    <div class="mx-auto max-w-md overflow-hidden rounded-[2rem] border border-ink-900/10 bg-white shadow-2xl shadow-terra-400/15">
+      <div class="flex items-center gap-3 border-b border-ink-900/10 bg-white px-5 py-4">
+        <span class="relative flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-terra-500 to-accent-400 text-sm font-bold text-white">LI</span>
         <div class="flex-1">
-          <p class="text-sm font-semibold text-white">Agriturismo Il Poggio</p>
-          <p class="text-xs text-emerald-400" data-status>online · risponde subito</p>
+          <p class="text-sm font-semibold text-ink-900">Le Isole d’Italia</p>
+          <p class="text-xs text-emerald-700" data-status>online · risponde subito</p>
         </div>
-        <span class="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-emerald-300 uppercase">WhatsApp</span>
+        <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold tracking-wide text-emerald-700 uppercase">WhatsApp</span>
       </div>
       <div data-log class="h-[22rem] space-y-3 overflow-y-auto px-4 py-5 text-sm" aria-live="polite">
-        <div class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-white/10 px-4 py-2.5 text-slate-100">
-          Buonasera! 🌿 Sono l’assistente dell’Agriturismo Il Poggio. Posso aiutarvi con disponibilità, prezzi e informazioni. Scrivete pure!
+        <div class="w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-cream-100 px-4 py-2.5 text-slate-800">
+          Ciao! 🌊 Sono l’assistente virtuale di Le Isole d’Italia, un’intelligenza artificiale. Posso aiutarvi con escursioni, prezzi e transfer, e se serve vi passo un consulente. Scrivete pure!
         </div>
       </div>
-      <div class="border-t border-white/10 p-3">
+      <div class="border-t border-ink-900/10 p-3">
         <div data-suggestions class="mb-3 flex gap-2 overflow-x-auto pb-1">
           {
             suggestions.map((s) => (
-              <button type="button" class="shrink-0 rounded-full border border-brand-300/30 bg-brand-400/10 px-3 py-1.5 text-xs text-brand-100 transition hover:bg-brand-400/20">
+              <button type="button" class="shrink-0 rounded-full border border-terra-400/30 bg-terra-400/10 px-3 py-1.5 text-xs text-terra-600 transition hover:bg-terra-400/20">
                 {s}
               </button>
             ))
@@ -46,9 +47,9 @@ const suggestions = [
             data-input
             autocomplete="off"
             placeholder="Scrivete una domanda…"
-            class="min-w-0 flex-1 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white placeholder:text-slate-500 focus:border-brand-400 focus:outline-none"
+            class="min-w-0 flex-1 rounded-full border border-ink-900/10 bg-white px-4 py-2 text-sm text-ink-900 placeholder:text-slate-500 focus:border-terra-500 focus:outline-none"
           />
-          <button class="flex size-10 items-center justify-center rounded-full bg-brand-400 text-ink-950" aria-label="Invia">
+          <button class="flex size-10 items-center justify-center rounded-full bg-terra-500 text-white" aria-label="Invia">
             <svg class="size-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3.4 20.4 21 12 3.4 3.6 3.4 10l12.6 2-12.6 2z"></path></svg>
           </button>
         </form>
@@ -58,19 +59,19 @@ const suggestions = [
 
   <!-- Behind the scenes -->
   <div class="glass min-w-0 rounded-3xl p-6 lg:col-span-2">
-    <p class="text-xs font-semibold tracking-wider text-brand-300 uppercase">Dietro le quinte</p>
-    <p class="mt-2 text-sm text-slate-400">Cosa fa l’assistente mentre risponde, in tempo reale.</p>
+    <p class="text-xs font-semibold tracking-wider text-terra-600 uppercase">Dietro le quinte</p>
+    <p class="mt-2 text-sm text-slate-600">Cosa fa l’assistente mentre risponde, in tempo reale.</p>
     <ol data-trace class="mt-5 space-y-3 font-mono text-xs">
       <li class="text-slate-500">In attesa di un messaggio…</li>
     </ol>
-    <dl class="mt-6 grid grid-cols-2 gap-3 border-t border-white/10 pt-5 text-center">
-      <div class="rounded-2xl bg-white/5 p-3">
-        <dt class="text-[11px] text-slate-400">Tempo di risposta</dt>
-        <dd class="mt-1 font-display text-xl text-white" data-latency>—</dd>
+    <dl class="mt-6 grid grid-cols-2 gap-3 border-t border-ink-900/10 pt-5 text-center">
+      <div class="rounded-2xl bg-white p-3">
+        <dt class="text-[11px] text-slate-600">Tempo di risposta</dt>
+        <dd class="mt-1 font-display text-xl text-ink-900" data-latency>—</dd>
       </div>
-      <div class="rounded-2xl bg-white/5 p-3">
-        <dt class="text-[11px] text-slate-400">Gestite senza personale</dt>
-        <dd class="mt-1 font-display text-xl text-white" data-handled>0 / 0</dd>
+      <div class="rounded-2xl bg-white p-3">
+        <dt class="text-[11px] text-slate-600">Gestite senza personale</dt>
+        <dd class="mt-1 font-display text-xl text-ink-900" data-handled>0 / 0</dd>
       </div>
     </dl>
   </div>
@@ -82,46 +83,39 @@ const suggestions = [
   const intents: Intent[] = [
     {
       id: 'english',
-      match: /\b(do you|rooms?|available|how much|dinner|hello|please|dog)\b/i,
+      match: /\b(do you|guides|english|available|how much|hello|please|boat|tickets?)\b/i,
       reply:
-        'Hello and welcome! 🌿 Next weekend we still have the Ulivo Room (2 guests, €140/night, breakfast included). Shall I hold it for you? Just send me your name and arrival time.',
-      trace: ['Lingua rilevata: inglese', 'Intento riconosciuto: disponibilità', 'Calendario prenotazioni consultato', 'Risposta in inglese con prezzo aggiornato'],
+        'Hi there! 🌊 Yes, all our island tours have English-speaking guides, and we can arrange German on request. This Saturday there are still 6 seats on the Aeolian Islands boat trip (Lipari + Vulcano, 9:00–18:00). Shall I hold two seats for you?',
+      trace: ['Lingua rilevata: inglese', 'Intento riconosciuto: guide e disponibilità', 'Calendario escursioni consultato', 'Risposta in inglese con posti liberi'],
     },
     {
       id: 'disponibilita',
-      match: /(liber|disponib|camer|weekend|notte|prenot|maggio|giugno|luglio|agosto|date)/i,
+      match: /(posti|liber|disponib|sabato|domenica|escursion|eolie|egadi|giro|barca|data|date|prenot)/i,
       reply:
-        'Per il weekend del 2–4 maggio abbiamo ancora libere la Camera Ulivo (2 persone, 140 €/notte) e la Suite Cipresso (fino a 4 persone, 210 €/notte), colazione inclusa. Volete che blocchi una delle due? Vi basta indicarmi nome e numero di ospiti.',
-      trace: ['Intento riconosciuto: disponibilità', 'Calendario prenotazioni consultato', '2 sistemazioni libere trovate', 'Proposta inviata con prezzi aggiornati'],
+        'Sabato ci sono ancora 6 posti per la minicrociera alle Eolie (Lipari e Vulcano, partenza 9:00, rientro 18:00, pranzo a bordo incluso). Volete che ve ne blocchi qualcuno per 24 ore? Mi bastano nome e numero di partecipanti.',
+      trace: ['Intento riconosciuto: disponibilità escursione', 'Calendario escursioni consultato', '6 posti liberi trovati', 'Proposta di blocco posti per 24 ore'],
     },
     {
       id: 'prezzi',
-      match: /(prezz|cost|quanto|cena|menu|menù|ristorante|mangiare)/i,
+      match: /(prezz|cost|quanto|tariff|bambin|adult|sconto|famiglia)/i,
       reply:
-        'La cena con menù degustazione toscano costa 45 € a persona, vini esclusi: per due persone sono 90 €. Serviamo dalle 19:30 alle 22:00, su prenotazione. Volete che vi riservi un tavolo?',
-      trace: ['Intento riconosciuto: prezzi ristorante', 'Listino 2026 consultato', 'Calcolo per 2 persone: 90 €', 'Proposta di prenotazione tavolo'],
+        'Per la minicrociera alle Eolie il prezzo è 95 € per adulto e 60 € per i bambini dai 4 ai 12 anni: per 2 adulti e un bambino sono 250 €, pranzo a bordo incluso. Sotto i 4 anni si viaggia gratis. Procedo con la prenotazione?',
+      trace: ['Intento riconosciuto: preventivo famiglia', 'Listino stagione consultato', 'Calcolo: 2 × 95 € + 60 € = 250 €', 'Proposta di prenotazione'],
     },
     {
-      id: 'animali',
-      match: /(cane|cani|gatto|animal|pet)/i,
+      id: 'transfer',
+      match: /(transfer|aeroport|navetta|hotel|porto|partenz|ritir|pick)/i,
       reply:
-        'Certo, gli amici a quattro zampe sono i benvenuti! 🐕 Accettiamo cani di piccola e media taglia con un supplemento di 10 € a notte. Abbiamo anche un’area verde recintata dove possono correre.',
-      trace: ['Intento riconosciuto: animali domestici', 'Regolamento struttura consultato', 'Risposta con supplemento e servizi'],
+        'Il transfer non è incluso nel prezzo base, ma lo organizziamo noi: dall’aeroporto o dal vostro hotel al porto costa 15 € a persona, andata e ritorno. Ditemi dove alloggiate e vi confermo l’orario di ritiro.',
+      trace: ['Intento riconosciuto: transfer', 'Servizi aggiuntivi consultati', 'Risposta con costo e richiesta dell’hotel'],
     },
     {
       id: 'umano',
-      match: /(titolare|persona|operator|umano|parlare|telefon|chiamat|reclam)/i,
+      match: /(consulent|persona|operator|umano|parlare|telefon|chiamat|reclam|gruppo|aziendal)/i,
       reply:
-        'Nessun problema: ho avvisato Marco, il titolare, che vi ricontatterà entro un’ora. Gli ho già passato il riepilogo della conversazione, così non dovrete ripetere nulla. 🙂',
-      trace: ['Richiesta di contatto umano rilevata', 'Riepilogo conversazione generato', 'Notifica inviata al titolare via WhatsApp', 'Ticket aperto nel CRM'],
+        'Certo! Ho avvisato Giulia, la nostra consulente, che vi ricontatterà entro un’ora negli orari d’ufficio. Le ho già passato il riepilogo della conversazione, così non dovrete ripetere nulla. 🙂',
+      trace: ['Richiesta di contatto umano rilevata', 'Riepilogo conversazione generato', 'Notifica inviata al consulente di turno', 'Contatto registrato nel CRM'],
       human: true,
-    },
-    {
-      id: 'orari',
-      match: /(orari|apert|chius|check|arriv|parcheg|dove|indirizz|come arriv)/i,
-      reply:
-        'Il check-in è dalle 15:00 alle 20:00 e il check-out entro le 10:30. Siamo in Val d’Orcia, a 5 km da Pienza, con parcheggio gratuito. Vi mando la posizione su Google Maps?',
-      trace: ['Intento riconosciuto: informazioni pratiche', 'Scheda struttura consultata', 'Risposta con orari e posizione'],
     },
   ];
 
@@ -129,7 +123,7 @@ const suggestions = [
     id: 'fallback',
     match: /.*/,
     reply:
-      'Bella domanda! Non ho questa informazione sotto mano, quindi l’ho girata al nostro staff: vi rispondiamo qui entro poco. Nel frattempo posso aiutarvi con disponibilità, prezzi o orari?',
+      'Bella domanda! Non ho questa informazione sotto mano, quindi l’ho girata al nostro staff: vi rispondiamo qui entro poco. Nel frattempo posso aiutarvi con escursioni, prezzi o transfer?',
     trace: ['Nessuna risposta certa nella base di conoscenza', 'Domanda inoltrata allo staff (niente risposte inventate)', 'Cliente informato dei tempi'],
     human: true,
   };
@@ -152,8 +146,8 @@ const suggestions = [
     const bubble = (html: string, mine: boolean) => {
       const el = document.createElement('div');
       el.className = mine
-        ? 'ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-to-br from-brand-400 to-brand-300 px-4 py-2.5 text-ink-950'
-        : 'w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-white/10 px-4 py-2.5 text-slate-100';
+        ? 'ml-auto w-fit max-w-[85%] rounded-2xl rounded-br-sm bg-gradient-to-br from-terra-500 to-terra-400 px-4 py-2.5 text-white'
+        : 'w-fit max-w-[85%] rounded-2xl rounded-bl-sm bg-cream-100 px-4 py-2.5 text-slate-800';
       el.innerHTML = html;
       log.appendChild(el);
       log.scrollTop = log.scrollHeight;
@@ -168,12 +162,12 @@ const suggestions = [
       const intent = intents.find((i) => i.match.test(text)) ?? fallback;
       trace.innerHTML = '';
       status.textContent = 'sta scrivendo…';
-      const typing = bubble('<span class="inline-flex gap-1"><span class="size-1.5 animate-bounce rounded-full bg-slate-300"></span><span class="size-1.5 animate-bounce rounded-full bg-slate-300 [animation-delay:120ms]"></span><span class="size-1.5 animate-bounce rounded-full bg-slate-300 [animation-delay:240ms]"></span></span>', false);
+      const typing = bubble('<span class="inline-flex gap-1"><span class="size-1.5 animate-bounce rounded-full bg-slate-400"></span><span class="size-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:120ms]"></span><span class="size-1.5 animate-bounce rounded-full bg-slate-400 [animation-delay:240ms]"></span></span>', false);
       for (const step of intent.trace) {
         await sleep(380);
         const li = document.createElement('li');
-        li.className = 'flex gap-2 text-brand-100';
-        li.innerHTML = `<span class="text-brand-400">✓</span><span>${esc(step)}</span>`;
+        li.className = 'flex gap-2 text-terra-600';
+        li.innerHTML = `<span class="text-terra-500">✓</span><span>${esc(step)}</span>`;
         trace.appendChild(li);
       }
       await sleep(300);

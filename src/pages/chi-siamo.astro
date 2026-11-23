@@ -3,12 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { site } from '../config/site';
-
-const team = [
-  { name: 'Nome Cognome', role: 'Fondatore · Strategia e progetti AI' },
-  { name: 'Nome Cognome', role: 'Sviluppo automazioni e integrazioni' },
-  { name: 'Nome Cognome', role: 'Relazione con i clienti e formazione' },
-];
+import Founder from '../components/human/Founder.astro';
 
 const values = [
   { title: 'Parliamo italiano, non “tecnichese”', text: 'Spieghiamo cosa facciamo con parole semplici e risultati concreti.' },
@@ -17,7 +12,7 @@ const values = [
 ];
 ---
 
-<Base title="Chi siamo" description={`Chi siamo: il team di ${site.name} e perché aiutiamo le PMI italiane con l'AI.`}>
+<Base title="Chi siamo" description={`Chi siamo: chi c'è dietro ${site.name} e perché aiutiamo le PMI italiane con l'AI.`}>
   <PageHeader
     eyebrow="Chi siamo"
     title="Portiamo l’intelligenza artificiale nelle PMI, senza complicazioni"
@@ -25,7 +20,7 @@ const values = [
   />
 
   <section class="container-page mt-16 grid gap-12 lg:grid-cols-2">
-    <div class="space-y-4 text-lg text-slate-300">
+    <div class="space-y-4 text-lg text-slate-700">
       <h2 class="text-3xl">La nostra missione</h2>
       <p>
         Le piccole e medie imprese sono la spina dorsale dell’economia italiana, ma spesso hanno poco tempo e poche
@@ -36,33 +31,21 @@ const values = [
         Lavoriamo con aziende di servizi, commercio, artigianato, studi professionali e manifattura in tutta Italia, in
         presenza e da remoto.
       </p>
-      <p class="text-sm text-slate-500">Testo segnaposto: da sostituire con la storia reale dell’azienda.</p>
-    </div>
+          </div>
     <div class="grid gap-4">
       {
         values.map((v) => (
           <div class="spotlight glass rounded-2xl p-6">
             <h3 class="text-lg">{v.title}</h3>
-            <p class="mt-2 text-slate-400">{v.text}</p>
+            <p class="mt-2 text-slate-600">{v.text}</p>
           </div>
         ))
       }
     </div>
   </section>
 
-  <section class="container-page mt-24">
-    <h2 class="text-3xl">Il team</h2>
-    <ul class="mt-8 grid gap-6 sm:grid-cols-3">
-      {
-        team.map((m) => (
-          <li class="rounded-2xl border border-white/10 p-6 text-center">
-            <div class="mx-auto size-24 rounded-full bg-gradient-to-br from-brand-400 to-violet-500" aria-hidden="true" />
-            <p class="mt-4 font-semibold text-white">{m.name}</p>
-            <p class="text-sm text-slate-400">{m.role}</p>
-          </li>
-        ))
-      }
-    </ul>
+  <section class="section-light mt-24 py-28">
+    <div class="container-page"><Founder /></div>
   </section>
 
   <CtaBand />

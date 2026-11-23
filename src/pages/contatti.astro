@@ -6,7 +6,7 @@ import { services } from '../data/services';
 import { localizedPath } from '../i18n/ui';
 
 const demoMode = !site.formEndpoint;
-const label = 'block text-sm font-medium text-slate-200';
+const label = 'block text-sm font-medium text-slate-700';
 ---
 
 <Base title="Contatti" description="Prenotate una consulenza gratuita di 30 minuti: vi rispondiamo entro un giorno lavorativo.">
@@ -66,7 +66,7 @@ const label = 'block text-sm font-medium text-slate-200';
         <div class="mt-2 flex flex-wrap gap-2 text-sm">
           {
             ['Mattina', 'Pomeriggio', 'Indifferente'].map((f, i) => (
-              <label class="cursor-pointer rounded-full border border-white/10 px-4 py-1.5 text-slate-300 has-checked:border-brand-300/60 has-checked:bg-brand-400/10 has-checked:text-white">
+              <label class="cursor-pointer rounded-full border border-ink-900/10 px-4 py-1.5 text-slate-700 has-checked:border-terra-400/60 has-checked:bg-terra-400/10 has-checked:text-ink-900">
                 <input type="radio" name="fascia" value={f.toLowerCase()} class="sr-only" checked={i === 2} />
                 {f}
               </label>
@@ -91,10 +91,10 @@ const label = 'block text-sm font-medium text-slate-200';
         <label>Lasciare vuoto <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
       </div>
 
-      <label class="flex items-start gap-3 text-sm text-slate-400">
-        <input type="checkbox" name="privacy" required class="mt-1 accent-brand-400" />
+      <label class="flex items-start gap-3 text-sm text-slate-600">
+        <input type="checkbox" name="privacy" required class="mt-1 accent-terra-500" />
         <span>
-          Ho letto l’<a href={localizedPath('it', 'privacy')} class="text-brand-300 underline">informativa privacy</a> e
+          Ho letto l’<a href={localizedPath('it', 'privacy')} class="text-terra-600 underline">informativa privacy</a> e
           acconsento al trattamento dei miei dati per essere ricontattato. *
         </span>
       </label>
@@ -103,33 +103,40 @@ const label = 'block text-sm font-medium text-slate-200';
         <button type="submit" class="btn btn-primary px-7 py-3 text-base">Invia richiesta</button>
         <p class="text-xs text-slate-500">* campi obbligatori</p>
       </div>
-      <p data-form-status class="hidden rounded-xl bg-brand-400/10 p-4 text-sm text-brand-100" role="status"></p>
+      <p data-form-status class="hidden rounded-xl bg-terra-400/10 p-4 text-sm text-terra-600" role="status"></p>
     </form>
 
     <aside class="space-y-5">
+      <div class="flex items-center gap-4 rounded-3xl border border-terra-400/30 bg-cream-50 p-5 text-slate-700">
+        <img src="/images/federico.webp" alt="Federico" width="72" height="72" class="size-16 shrink-0 rounded-full object-cover" />
+        <div>
+          <p class="font-semibold text-ink-900">Vi risponde Federico</p>
+          <p class="text-sm">Leggo io ogni richiesta e vi scrivo personalmente, di solito entro poche ore.</p>
+        </div>
+      </div>
       {
         site.bookingUrl && (
-          <div class="rounded-3xl border border-brand-300/30 bg-gradient-to-br from-brand-500/20 to-violet-600/20 p-6">
+          <div class="rounded-3xl border border-terra-400/30 bg-gradient-to-br from-terra-300/30 to-accent-300/25 p-6">
             <h2 class="text-xl">Preferite scegliere voi l’orario?</h2>
-            <p class="mt-2 text-sm text-slate-300">Prenotate direttamente uno slot libero nel nostro calendario.</p>
+            <p class="mt-2 text-sm text-slate-700">Prenotate direttamente uno slot libero nel nostro calendario.</p>
             <a href={site.bookingUrl} class="btn btn-primary mt-4" rel="noopener" target="_blank">Aprite il calendario</a>
           </div>
         )
       }
       <div class="glass rounded-3xl p-6">
         <h2 class="text-xl">Contatti diretti</h2>
-        <ul class="mt-4 space-y-4 text-slate-200">
-          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">Email</span><a class="hover:text-brand-300" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
-          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">Telefono</span><a class="hover:text-brand-300" href={`tel:${site.contact.phone.replace(/\s/g, '')}`}>{site.contact.phone}</a></li>
-          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">WhatsApp</span><a class="hover:text-brand-300" href={site.contact.whatsapp} rel="noopener">Scriveteci su WhatsApp</a></li>
+        <ul class="mt-4 space-y-4 text-slate-700">
+          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">Email</span><a class="hover:text-terra-600" href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>
+          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">Telefono</span><a class="hover:text-terra-600" href={`tel:${site.contact.phone.replace(/\s/g, '')}`}>{site.contact.phone}</a></li>
+          <li><span class="block text-xs tracking-wider text-slate-500 uppercase">WhatsApp</span><a class="hover:text-terra-600" href={site.contact.whatsapp} rel="noopener">Scriveteci su WhatsApp</a></li>
           <li><span class="block text-xs tracking-wider text-slate-500 uppercase">Sede</span>{site.legal.address}</li>
         </ul>
       </div>
-      <div class="glass rounded-3xl p-6 text-sm text-slate-400">
+      <div class="glass rounded-3xl p-6 text-sm text-slate-600">
         <h2 class="text-base">Cosa succede dopo?</h2>
         <ol class="mt-4 space-y-3">
           {['Leggiamo la vostra richiesta.', 'Vi scriviamo per fissare una call di 30 minuti.', 'Vi inviamo una prima valutazione, gratis.'].map((s, i) => (
-            <li class="flex gap-3"><span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-brand-400/15 text-xs text-brand-200">{i + 1}</span>{s}</li>
+            <li class="flex gap-3"><span class="flex size-6 shrink-0 items-center justify-center rounded-full bg-terra-400/15 text-xs text-terra-600">{i + 1}</span>{s}</li>
           ))}
         </ol>
       </div>
@@ -143,6 +150,12 @@ const label = 'block text-sm font-medium text-slate-200';
   const svc = new URLSearchParams(location.search).get('servizio');
   const sel = form?.querySelector<HTMLSelectElement>('#interesse');
   if (svc && sel && [...sel.options].some((o) => o.value === svc)) sel.value = svc;
+
+  // Coming from the pricing section (?piano=...): prefill the message
+  const plans: Record<string, string> = { accoglienza: 'Accoglienza', ufficio: 'Ufficio in Ordine', crescita: 'Crescita' };
+  const plan = new URLSearchParams(location.search).get('piano');
+  const msg = form?.querySelector<HTMLTextAreaElement>('#messaggio');
+  if (plan && plans[plan] && msg && !msg.value) msg.value = `Vorrei saperne di più sul piano ${plans[plan]}. `;
 
   // Demo mode: nothing is sent until formEndpoint is configured.
   if (form?.dataset.demo) {

@@ -19,6 +19,7 @@ export type RouteKey =
   | 'services'
   | 'demo'
   | 'calculator'
+  | 'pricing'
   | 'method'
   | 'about'
   | 'contact'
@@ -31,6 +32,7 @@ export const routes: Record<Lang, Record<RouteKey, string>> = {
     services: '/servizi',
     demo: '/#demo',
     calculator: '/calcolatore',
+    pricing: '/#prezzi',
     method: '/come-lavoriamo',
     about: '/chi-siamo',
     contact: '/contatti',
@@ -42,6 +44,7 @@ export const routes: Record<Lang, Record<RouteKey, string>> = {
     services: '/en/services',
     demo: '/en#demo',
     calculator: '/en/calculator',
+    pricing: '/en#pricing',
     method: '/en/how-we-work',
     about: '/en/about',
     contact: '/en/contact',
@@ -55,6 +58,7 @@ export const ui = {
     'nav.services': 'Servizi',
     'nav.demo': 'Demo live',
     'nav.calculator': 'Calcolatore',
+    'nav.pricing': 'Prezzi',
     'nav.method': 'Come lavoriamo',
     'nav.about': 'Chi siamo',
     'nav.contact': 'Contatti',
@@ -70,6 +74,7 @@ export const ui = {
     'nav.services': 'Services',
     'nav.demo': 'Live demo',
     'nav.calculator': 'Calculator',
+    'nav.pricing': 'Pricing',
     'nav.method': 'How we work',
     'nav.about': 'About',
     'nav.contact': 'Contact',
